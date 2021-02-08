@@ -1,0 +1,18 @@
+Package: irs.soi
+Title: What the Package Does (One Line, Title Case)
+Version: 0.0.0.9000
+Authors@R: 
+    c( person(given = "David",
+           family = "Lucey",
+           role = c("aut", "cre"),
+           email = "dnl2001@stern.nyu.com"),
+           person("Redwall Analytics",
+           role = "cph") )
+Description: 
+  This package has tools to load, clean and aggregate IRS SOI data.
+License: `use_mit_license()`, `use_gpl3_license()` or friends to
+    pick a license
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.1
