@@ -20,12 +20,17 @@ usethis::create_package("../irs.soi")
 # 2.0 SETTING THE PACKAGE UP ----
 
 # * Setup git
+usethis::use_git_config(
+    user.name = "luceydav",
+    user.email = "dnl2001@stern.nyu.edu"
+)
 usethis::use_git()
 
 # * Code Repository ----
 # - Requires setup of GH Auth Token: browse_github_token()
 # - Refresh your R Session once you update your '.Renviron'
-usethis::use_github(private = TRUE)  
+credentials::set_github_pat()
+usethis::use_github(private = TRUE)
 
 # * Basic Package Setup ----
 usethis::use_roxygen_md()
@@ -68,13 +73,13 @@ pkgdown::build_site()
 # Authors@R: c(
 #     person("Matt", "Dancho", email = "info@business-science.io", role = c("aut", "cre")),
 #     person("Business Science", role = "cph"))
-# Description: 
-#     Human Resources churn workflow analysis tools and PowerPoint Report Automation. 
+# Description:
+#     Human Resources churn workflow analysis tools and PowerPoint Report Automation.
 # License: MIT + file LICENSE
-# Imports: 
-#     tidyquant, 
+# Imports:
+#     tidyquant,
 #     dplyr,
-#     ggplot2, 
+#     ggplot2,
 #     purrr,
 #     officer,
 #     flextable,
@@ -85,7 +90,7 @@ pkgdown::build_site()
 #     forcats,
 #     scales,
 #     tidyselect
-# Suggests: 
+# Suggests:
 #     tidyverse,
 #     testthat,
 #     knitr,
@@ -96,7 +101,7 @@ pkgdown::build_site()
 # LazyData: true
 # Roxygen: list(markdown = TRUE)
 # RoxygenNote: 7.1.1
-# Depends: 
+# Depends:
 #     R (>= 2.10)
 # URL: https://github.com/mdancho84/hr.churn.test
 # BugReports: https://github.com/mdancho84/hr.churn.test/issues
