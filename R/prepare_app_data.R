@@ -1,9 +1,9 @@
 # Function to select cols and add cities for app
 
 prepare_app_data <- function(full_irs_clean) {
-  
-  d <- copy(full_irs_clean)
-  
+
+  d <- data.table::copy(full_irs_clean)
+
   cols <-
     c(
       "year",
@@ -38,10 +38,10 @@ prepare_app_data <- function(full_irs_clean) {
       "a00300",
       "n00300"
     )
-  
+
   # Load zips
   zips <-
-    setDT(zipcodeR::zip_code_db)[population > 0, ][, 
+    data.table::setDT(zipcodeR::zip_code_db)[population > 0, ][,
       ][,.(
         zipcode,
         zipcode_type,
@@ -50,27 +50,27 @@ prepare_app_data <- function(full_irs_clean) {
         major_city,
         population
       )]
-  
+
   # Selcct cols from full_irs_clean
   d <- d[, ..cols][
-    !zipcode %chin% d[, .SD[sum(n1) < 100], 
+    !zipcode %chin% d[, .SD[sum(n1) < 100],
                       .(zipcode, year)]$zipcode]
   #d[, zipcode :=
   #   fifelse(zipcode <= 9999,
     #          paste0("0", zipcode),
     #          as.character(zipcode))]
-  
+
   # Join to add county, city and population
   d <- zips[d, on = "zipcode"]
-  
+
   # Adjust cities with missing post office
-  d[is.na(post_office_city), 
-    post_office_city := glue_data(.SD, "Smaller City, {state}")]
-  d[, county := fifelse(
+  d[is.na(post_office_city),
+    post_office_city := glue::glue_data(.SD, "Smaller City, {state}")]
+  d[, county := data.table::fifelse(
     is.na(county),
-    glue_data(.SD, "Smaller County, {state}"),
-    glue_data(.SD, "{county}, {state}")
-  )]  
-  
+    glue::glue_data(.SD, "Smaller County, {state}"),
+    glue::glue_data(.SD, "{county}, {state}")
+  )]
+
   return(d)
 }

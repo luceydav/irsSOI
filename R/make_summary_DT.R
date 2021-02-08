@@ -1,16 +1,16 @@
 # Function to take incoming reactive data.frame, convert to data.table and build Summary DT
 
 make_summary_DT <- function(data) {
-  
+
   if (length(data$zipcode) < 50) {
     digits <- 3
   } else {
     digits <- 1
   }
-  
+
   # https://taxfoundation.org/federal-tax-revenue-source-1934-2018/
-  datatable(
-    setDT(data)[,
+  DT::datatable(
+    data.table::setDT(data)[,
       .(
         tot_agi = sum(as.numeric(a00100), na.rm = TRUE) / 1000000,
         tot_tax = sum(as.numeric(total_tax), na.rm = TRUE) /
@@ -18,7 +18,7 @@ make_summary_DT <- function(data) {
         tot_returns = sum(as.numeric(n1), na.rm = TRUE) / 1000000,
         unique_zips = length(unique(zipcode))
       ),
-      by = year], 
+      by = year],
     colnames = c(
       "Year",
       "Total AGI ($B)",
@@ -38,17 +38,17 @@ make_summary_DT <- function(data) {
     ),
     rownames = FALSE
   ) %>%
-    formatRound(
+    DT::formatRound(
       columns = c(2:3),
       mark = ",",
       digits = digits
     )  %>%
-    formatRound(
+    DT::formatRound(
       columns = 4,
       mark = ",",
       digits = digits
     )%>%
-    formatRound(
+    DT::formatRound(
       columns = 5,
       mark = ",",
       digits = 0

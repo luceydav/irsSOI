@@ -1,8 +1,8 @@
 
 make_agi_graph <- function(data) {
-  
+
   plotly::layout(
-    setDT(data)[,
+    data.table::setDT(data)[,
        {
          agi_sum = sum(a00100, na.rm = TRUE)
          total = sum(n1, na.rm = TRUE)
@@ -12,7 +12,7 @@ make_agi_graph <- function(data) {
        },
        by = .(Year = year,
               `Income Group` = agi_level)][,
-      plot_ly(
+      plotly::plot_ly(
         .SD,
         x = ~ Year,
         y = ~ `Income Amount`,
@@ -39,7 +39,7 @@ make_agi_graph <- function(data) {
           )
         )
       ) %>%
-        add_markers(size = ~ `Returns`,
+        plotly::add_markers(size = ~ `Returns`,
                     mode = "markers")],
     title = "Annual Aggregate AGI Per Capita by Selected Group"
   ,

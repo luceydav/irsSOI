@@ -6,6 +6,9 @@ library(glue)
 library(stringr)
 library(janitor)
 library(fst)
+library(zipcodeR)
+library(plotly)
+library(htmltools)
 
 # 2.0 FUNCTIONS -----
 lapply(list.files("./R", full.names = TRUE), source)

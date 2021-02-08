@@ -2,7 +2,7 @@
 make_tax_graph <- function(data) {
 
   plotly::layout(
-    setDT(data)[,
+    data.table::setDT(data)[,
        {
          agi_sum = sum(a00100 , na.rm = TRUE)
          tot_tax = sum(total_tax, na.rm = TRUE)
@@ -12,7 +12,7 @@ make_tax_graph <- function(data) {
               `Tax Rate` = tax_rate)
        },
        by = .(Year = year, `Income Group` = agi_level)][,
-      plot_ly(
+      plotly::plot_ly(
         .SD,
         x = ~ Year,
         y = ~ `Tax Rate`,
@@ -39,7 +39,7 @@ make_tax_graph <- function(data) {
           )
         )
       ) %>%
-        add_markers(size = ~ `Returns`,
+        DT::add_markers(size = ~ `Returns`,
                     mode = "markers")],
     title = "Annual Effective Tax Rate by Selected Group",
     xaxis = list(

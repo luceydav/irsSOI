@@ -2,9 +2,9 @@
 
 #Function to normalize post 2008 levels
 convert_agi_2 <- function(x) {
-  
+
   # convert to y based on x
-  y <- fcase(
+  y <- data.table::fcase(
     x == "1", "<$25k",
     x == "2", "$25-50k",
     x == "3", "$50-75k",

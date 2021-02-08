@@ -7,19 +7,19 @@ load_soi <- function(state = "", path = path) {
   state_code <-
     paste0("'", paste(state, tolower(state), sep = "|"), "'")
   command <-
-    fifelse(state != "", glue("grep -E {state_code} "), glue(""))
+    data.table::fifelse(state != "", glue::glue("grep -E {state_code} "), glue::glue(""))
 
   # Get years
   year <-
-    str_extract(list.files(subdir, full.names = TRUE), "\\d{4}")
+    stringr::str_extract(list.files(subdir, full.names = TRUE), "\\d{4}")
 
   # Regex match for rows with 'CT/ct'
-  irs <- rbindlist(
+  irs <- data.table::rbindlist(
 
     setNames(lapply(files, function(file) {
 
       # Get column names
-      cols <- names(fread(
+      cols <- names(data.table::fread(
         file,
         nrows = 1,
         header = TRUE,
@@ -32,14 +32,14 @@ load_soi <- function(state = "", path = path) {
       # Get data based on state argument
       if ( state == "" ) {
         data <-
-          fread(file,
+          data.table::fread(file,
                 colClasses = col_classes,
                 col.names = cols,
                 nThread = 3)
       } else {
         data <-
-          fread(
-            cmd = glue("{command}{file}"),
+          data.table::fread(
+            cmd = glue::glue("{command}{file}"),
             colClasses = col_classes,
             col.names = cols,
             nThread = 3
