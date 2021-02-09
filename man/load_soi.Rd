@@ -12,7 +12,7 @@ load_soi(state = "", path = path)
 \item{path}{The location of the .csv folder}
 }
 \description{
-Given folder of NBER Downloaded annual .csv's, return a data.table
+Given folder of NBER Downloaded annual .csv's from \code{\link[=download_nber_data]{download_nber_data()}}, return a data.table
 (https://www.nber.org/research/data/individual-income-tax-statistics-zip-code-data-soi)
 }
 \details{

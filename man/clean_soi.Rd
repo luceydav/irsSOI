@@ -10,7 +10,7 @@ clean_soi(irs_raw)
 \item{irs_raw}{Uncleaned data.table of annual tax data}
 }
 \description{
-Cleans raw IRS annual data by removing summary rows, aggregating income levels
-and coalescing number of return columns, which vary from early to later years
-and number of return columns
+Cleans raw IRS annual data from \code{\link[=load_soi]{load_soi()}} by removing summary rows,
+aggregating income levels and coalescing number of return columns,
+which vary from early to later years and number of return columns
 }

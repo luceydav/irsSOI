@@ -2,9 +2,9 @@
 #' helper function to clean IRS SOI data
 #'
 #' @description
-#' Cleans raw IRS annual data by removing summary rows, aggregating income levels
-#' and coalescing number of return columns, which vary from early to later years
-#' and number of return columns
+#' Cleans raw IRS annual data from [load_soi()] by removing summary rows,
+#' aggregating income levels and coalescing number of return columns,
+#' which vary from early to later years and number of return columns
 #'
 #' @param irs_raw Uncleaned data.table of annual tax data
 #'

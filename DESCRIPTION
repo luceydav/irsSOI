@@ -1,5 +1,5 @@
 Package: irs.soi
-Title: What the Package Does (One Line, Title Case)
+Title: Tools to load and explore IRS SOI Zip Data
 Version: 0.0.0.9000
 Authors@R: 
     c( person(given = "David",

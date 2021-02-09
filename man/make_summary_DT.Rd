@@ -11,4 +11,5 @@ make_summary_DT(data)
 }
 \description{
 Makes a Summary datatable of AGI, Federal Tax, Total returns and Unique Zips by year
+using output of \code{\link[=clean_soi]{clean_soi()}}
 }

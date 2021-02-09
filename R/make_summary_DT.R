@@ -3,6 +3,7 @@
 #'
 #' @description
 #' Makes a Summary datatable of AGI, Federal Tax, Total returns and Unique Zips by year
+#' using output of [clean_soi()]
 #'
 #' @param data IRS data.table
 #'

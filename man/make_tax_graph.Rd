@@ -11,6 +11,7 @@ make_tax_graph(data)
 }
 \description{
 Takes cleaned IRS data.table and makes Plotly graph of tax rate by selection
+using output of \code{\link[=clean_soi]{clean_soi()}}
 }
 \examples{
 \dontrun{

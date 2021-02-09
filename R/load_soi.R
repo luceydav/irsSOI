@@ -2,7 +2,7 @@
 #' Import IRS SOI NBER Data
 #'
 #' @description
-#' Given folder of NBER Downloaded annual .csv's, return a data.table
+#' Given folder of NBER Downloaded annual .csv's from [download_nber_data()], return a data.table
 #' (https://www.nber.org/research/data/individual-income-tax-statistics-zip-code-data-soi)
 #'
 #' @param state A State ID Code

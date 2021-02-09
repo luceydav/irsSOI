@@ -2,6 +2,7 @@
 #'
 #' @description
 #' Takes cleaned IRS data.table and makes Plotly graph of tax rate by selection
+#' using output of [clean_soi()]
 #'
 #' @param data IRS data.table
 #'
