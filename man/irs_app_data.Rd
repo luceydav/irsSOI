@@ -5,16 +5,27 @@
 \alias{irs_app_data}
 \title{Clean IRS Data for Shiny App}
 \format{
-An object of class \code{data.frame} with 2033904 rows and 9 columns.
+A data frame with 2033904 rows and 9 variables:
+\describe{
+\item{year}{year, int}
+\item{zipcode}{zipcode chr}
+\item{state}{state abbreviation code, chr}
+\item{county}{county name, State, chr}
+\item{agi_level}{five income levels, chr}
+\item{post_office_city}{city, state, chr}
+\item{n1}{number of taxpayers, int}
+\item{a00100}{Adjusted Gross Income, num}
+\item{total_tax}{Total tax paid, num}
+}
+}
+\source{
+\url{https://www.nber.org/research/data/individual-income-tax-statistics-zip-code-data-soi/}
 }
 \usage{
 irs_app_data
 }
 \description{
-Cleaned up IRS Data
-}
-\examples{
-irs_app_data
-
+Sample of cleaned up IRS Data product after running load_soi() and clean_soi()
+Only includes 2018 for CT
 }
 \keyword{datasets}

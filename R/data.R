@@ -1,12 +1,9 @@
 #' Clean IRS Data for Shiny App
 #'
-#' Cleaned up IRS Data
+#' Sample of cleaned up IRS Data product after running load_soi() and clean_soi()
+#' Only includes 2018 for CT
 #'
-#' @examples
-#' irs_app_data
-#'
-#'
-#'#' @format A data frame with 2033904 rows and 9 variables:
+#' @format A data frame with 2033904 rows and 9 variables:
 #' \describe{
 #'   \item{year}{year, int}
 #'   \item{zipcode}{zipcode chr}
