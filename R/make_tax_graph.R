@@ -10,7 +10,7 @@
 #' \dontrun{
 #' make_tax_graph(irs)}
 #'
-
+#' @export
 make_tax_graph <- function(data) {
 
   plotly::layout(

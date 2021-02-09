@@ -17,7 +17,8 @@
 #' irs <- load_soi("/home/irs_data/")}
 #'
 #' @importFrom stats setNames
-
+#'
+#' @export
 load_soi <- function(state = "", path = path) {
 
   # Directory

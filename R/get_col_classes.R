@@ -6,10 +6,7 @@
 #'
 #' @param file A .csv file loaded from the IRS SOI folder
 #'
-#'
-
-
-
+#' @export
 # Function to match colClasses based on regex with names
 get_col_classes <- function(file) {
 

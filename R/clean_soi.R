@@ -8,8 +8,7 @@
 #'
 #' @param irs_raw Uncleaned data.table of annual tax data
 #'
-#'
-
+#' @export
 clean_soi <- function(irs_raw) {
 
   irs <- data.table::copy(irs_raw)

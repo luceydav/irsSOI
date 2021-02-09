@@ -11,7 +11,7 @@
 #' \dontrun{
 #' make_agi_graph(irs)}
 #'
-
+#' @export
 make_agi_graph <- function(data) {
 
   plotly::layout(

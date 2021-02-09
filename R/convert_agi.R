@@ -7,8 +7,7 @@
 #' @param agi_level A State ID Code
 #'
 #'
-#'
-
+#' @export
 convert_agi <- function(agi_level) {
 
   # Convert x to y based on fcase

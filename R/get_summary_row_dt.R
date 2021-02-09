@@ -7,9 +7,7 @@
 #'
 #' @param irs IRS data.table
 #'
-#'
-
-
+#' @export
 get_summary_row_dt <- function(irs) {
 
   # Copies irs data and keeps zipcode, year and number of returns

@@ -6,8 +6,7 @@
 #'
 #' @param agi_level A State ID Code
 #'
-#'
-
+#' @export
 convert_agi_2 <- function(agi_level) {
 
   # convert to y based on x

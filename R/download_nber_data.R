@@ -14,7 +14,7 @@
 #' \dontrun{library(data.table)
 #'  download_nber_data(start = 2016)}
 #'
-
+#' @export
 download_nber_data <- function(path, start_year, finish_year) {
 
   years <- as.character(c(start_year:finish_year))

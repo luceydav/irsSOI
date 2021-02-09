@@ -9,8 +9,7 @@
 #'
 #' @importFrom stats setNames
 #'
-#'
-
+#' @export
 make_summary_DT <- function(data) {
 
   if (length(data$zipcode) < 50) {

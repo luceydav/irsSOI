@@ -7,7 +7,7 @@
 #' @param x a00100 (AGI)
 #' @param y n1 (number of returns)
 #'
-
+#' @export
 calc_agi <- function(x, y) {
 
   # Classify based on x, y
