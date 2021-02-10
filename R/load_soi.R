@@ -6,11 +6,11 @@
 #' (https://www.nber.org/research/data/individual-income-tax-statistics-zip-code-data-soi)
 #'
 #' @param state A State ID Code
-#' @param path The location of the .csv folder
+#' @param path The location of the .csv folder output of download_nber_data()
 #'
 #' @details
 #' - Example of state would be "CT" or "FL"
-#' - Path should be "/home/.."
+#' - Directory path used for download_nber_data() (ie: "/home/..")
 #'
 #' @examples
 #' \dontrun{library(data.table)

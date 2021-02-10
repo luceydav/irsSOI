@@ -1,5 +1,5 @@
 
-#' helper function to clean IRS SOI data
+#' Helper function to clean raw IRS SOI data loaded with load_soi()
 #'
 #' @description
 #' Cleans raw IRS annual data from [load_soi()] by removing summary rows,

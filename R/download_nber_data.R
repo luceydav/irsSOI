@@ -1,10 +1,10 @@
 
-#' Download data from NBER and store in designated folder
+#' Download raw data from NBER and store in designated folder
 #'
 #' @description
 #' Given years to download and folder path, downloads raw .csv data
 #' (https://www.nber.org/research/data/individual-income-tax-statistics-zip-code-data-soi)
-#' Download time is approximately 1 minute per year
+#' Download time is approximately 1 minute per year and 75MB per year
 #'
 #' @param path "/home/irs_data/"
 #' @param start_year 2005

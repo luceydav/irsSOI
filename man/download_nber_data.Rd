@@ -2,7 +2,7 @@
 % Please edit documentation in R/download_nber_data.R
 \name{download_nber_data}
 \alias{download_nber_data}
-\title{Download data from NBER and store in designated folder}
+\title{Download raw data from NBER and store in designated folder}
 \usage{
 download_nber_data(path, start_year, finish_year)
 }
@@ -16,7 +16,7 @@ download_nber_data(path, start_year, finish_year)
 \description{
 Given years to download and folder path, downloads raw .csv data
 (https://www.nber.org/research/data/individual-income-tax-statistics-zip-code-data-soi)
-Download time is approximately 1 minute per year
+Download time is approximately 1 minute per year and 75MB per year
 }
 \examples{
 \dontrun{library(data.table)

@@ -2,7 +2,7 @@
 % Please edit documentation in R/clean_soi.R
 \name{clean_soi}
 \alias{clean_soi}
-\title{helper function to clean IRS SOI data}
+\title{Helper function to clean raw IRS SOI data loaded with load_soi()}
 \usage{
 clean_soi(irs_raw)
 }

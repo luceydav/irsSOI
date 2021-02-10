@@ -9,7 +9,7 @@ load_soi(state = "", path = path)
 \arguments{
 \item{state}{A State ID Code}
 
-\item{path}{The location of the .csv folder}
+\item{path}{The location of the .csv folder output of download_nber_data()}
 }
 \description{
 Given folder of NBER Downloaded annual .csv's from \code{\link[=download_nber_data]{download_nber_data()}}, return a data.table
@@ -18,7 +18,7 @@ Given folder of NBER Downloaded annual .csv's from \code{\link[=download_nber_da
 \details{
 \itemize{
 \item Example of state would be "CT" or "FL"
-\item Path should be "/home/.."
+\item Directory path used for download_nber_data() (ie: "/home/..")
 }
 }
 \examples{
