@@ -15,8 +15,8 @@ download_nber_data(path = "", start_year, end_year)
 }
 \description{
 Given years to download and folder path, downloads raw .csv data
-(https://www.nber.org/research/data/individual-income-tax-statistics-zip-code-data-soi)
 Download time is approximately 1 minute per year and 75MB per year
+(https://www.nber.org/research/data/individual-income-tax-statistics-zip-code-data-soi)
 }
 \examples{
 \dontrun{library(data.table)
