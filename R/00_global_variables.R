@@ -15,7 +15,11 @@ globalVariables(
     "state",
     "total_tax",
     "a09200",
-    "a10300"
+    "a10300",
+    "population",
+    "zipcode_type",
+    "county",
+    "major_city"
     )
 
 )
