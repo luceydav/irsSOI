@@ -4,14 +4,14 @@
 \alias{download_nber_data}
 \title{Download raw data from NBER and store in designated folder}
 \usage{
-download_nber_data(path, start_year, finish_year)
+download_nber_data(path = "", start_year, end_year)
 }
 \arguments{
 \item{path}{"/home/irs_data/"}
 
 \item{start_year}{2005}
 
-\item{finish_year}{2016}
+\item{end_year}{2016}
 }
 \description{
 Given years to download and folder path, downloads raw .csv data
