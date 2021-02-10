@@ -17,3 +17,24 @@ knitr::opts_chunk$set(
 ```{r setup}
 library(irs.soi)
 ```
+
+
+```{r}
+data("irs_app_data")
+```
+
+
+```{r}
+make_summary_DT(irs_app_data)
+```
+
+
+```{r}
+make_agi_graph(irs_app_data)
+```
+
+
+```{r}
+make_tax_graph(irs_app_data)
+```
+
