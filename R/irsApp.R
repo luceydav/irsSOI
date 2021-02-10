@@ -12,7 +12,6 @@
 #' irsApp()}
 #'
 #' @export
-#'
 irsApp <- function(data = irs_app_data) {
 
   if( !identical(data, irs_app_data) ) {
