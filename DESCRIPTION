@@ -23,7 +23,10 @@ Imports:
     glue,
     plotly,
     DT,
-    htmltools
+    htmltools,
+    shiny,
+    shinydashboard,
+    shinyWidgets
 Suggests: 
     knitr,
     rmarkdown,

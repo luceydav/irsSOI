@@ -8,7 +8,10 @@
 A data frame with 2033904 rows and 9 variables:
 \describe{
 \item{year}{year, int}
-\item{zipcode}{zipcode chr}
+\item{zipcode}{zipcode, chr}
+\item{state}{state, chr}
+\item{county}{county, chr}
+\item{post_office_city}{city, chr}
 \item{agi_level}{five income levels, chr}
 \item{n1}{number of taxpayers, int}
 \item{a00100}{Adjusted Gross Income, num}

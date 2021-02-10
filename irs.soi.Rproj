@@ -20,3 +20,7 @@ BuildType: Package
 PackageUseDevtools: Yes
 PackageInstallArgs: --no-multiarch --with-keep.source
 PackageRoxygenize: rd,collate,namespace
+
+PythonType: conda
+PythonVersion: 3.6.10
+PythonPath: ~/Library/r-miniconda/envs/r-reticulate/bin/python
