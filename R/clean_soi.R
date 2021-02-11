@@ -11,15 +11,16 @@
 #' @export
 clean_soi <- function(irs_raw) {
 
+  # Make copy
   irs <- data.table::copy(irs_raw)
 
-  #Filter duplicate year column from post 2008 if exists
+  # Filter duplicate year column from post 2008 if exists
   irs <- irs[, .SD, .SDcols = unique(names(irs))]
 
-  #Set key cols
+  # Set key cols
   data.table::setkey(irs, zipcode)
 
-  #Remove pre-formatted summary rows
+  # Remove pre-formatted summary rows
   irs <-
     irs[!zipcode %chin% c("00000", "99999", "0", "")]
 
@@ -73,13 +74,21 @@ clean_soi <- function(irs_raw) {
   # Aggregate rows by same agi_level, year, zipcode
   num <-
     setdiff(names(irs), c("agi_level", "year", "zipcode", "state"))
-  states <- unique(irs[, list(zipcode, state)], by = "zipcode")
+  states <-
+    unique(irs[, list(zipcode, state)], by = "zipcode")
   irs <-
     irs[, lapply(.SD, sum, na.rm = TRUE),
         .SDcols = num,
         by = list(year, zipcode, agi_level)]
   irs <- states[irs, on = "zipcode"]
   irs[, state := toupper(state)]
+
+  # Remove if agi_level is NA (only a few rows)
+  irs <- irs[!is.na(agi_level)]
+
+  # Filter only zipcodes where all periods/agi_levels present
+  complete_zipcode <- length(unique(irs$year)) * 5
+  irs <- irs[, .SD[.N == complete_zipcode], zipcode]
 
   ## Divide numeric amount columns by 1000 for 2007 and 2008 to equalize with other years
   cols <- names(irs)[stringr::str_which(names(irs), "^a\\d{5}")]
