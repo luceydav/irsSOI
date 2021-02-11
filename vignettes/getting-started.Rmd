@@ -24,6 +24,7 @@ library(irs.soi)
 ```
 
 
+
 The NBER [Individual Income Tax Statistics - ZIP Code](Individual Income Tax Statistics - ZIP Code) cleans the [IRS SOI data][https://www.irs.gov/statistics/soi-tax-stats-individual-income-tax-statistics-zip-code-data-soi] and makes the data from 2005-2016 available for download. We built a function `download_nber_data()` to download based on specified years. Each year takes about 1 minute and 75MB of data. If no path specified, makes a file called "data" in the working directory. 
 
 ```{r 'download-nber', eval=FALSE}
