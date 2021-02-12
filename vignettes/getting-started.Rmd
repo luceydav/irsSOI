@@ -32,17 +32,19 @@ The NBER [Individual Income Tax Statistics - ZIP Code](Individual Income Tax Sta
 download_nber_data(start_year = 2015, end_year = 2016)
 ```
 
-The `load_soi()` function takes all the data in the specified folder, loads and row binds all years to return a data.table. Because of changes over time, annual data sometimes has different variable names and threshold for income bands. We have aggregated income bands where possible. For example, early years had separate bands for \<\$<10k and \<\$25k, and the later years have only \<\$25k, so we aggregated the two bands into one. We unfortunately also had to aggregate \<\$100k and \<\$250k, but this would have made a more meaningful high income category. We have also sometimes coalesced variables which were the same, but called different names over time.
+The `load_soi()` function takes all the data in the specified folder, loads and row binds all years to return a data.table. Because of changes over time, annual data sometimes has different variable names and threshold for income bands. We have aggregated income bands where possible. For example, early years had separate bands for \<\$<10k and \<\$25k, and the later years have only \<\$25k, so we aggregated the totals of the two bands into one. We unfortunately also had to combine \<\$100k and \<\$250k, but this would have made a more meaningful high income category. We have also sometimes coalesced variables which were the same, but called different names over time.
 
-```{r 'load-soi', eval=FALSE}
-# Not run
+```{r 'load-prepare-soi', eval=FALSE}
+# Not run but to show if not using built-in data
 path <- "./data/"
-irs_app_data <- load_soi(path = path)
+irs_app_data <- irs.soi::load_soi(path = path)
+irs_app_data <- irs.soi::prepare_app_data(irs_app_data)
 ```
 
-Load included sample data.table for the State of CT from 2005-2018 called `irs_app_data`.
+Load included sample data.table for the State of CT from 2005-2018 called `irs_app_data`. We have also 
 
 ```{r 'sample-CT-data', echo=TRUE}
+# Load built-in data
 data("irs_app_data")
 ```
 
@@ -62,6 +64,12 @@ Make a graph of the average Federal tax rate for the State of CT by income band 
 
 ```{r 'plotly-tax-rate', echo=TRUE}
 make_tax_graph(irs_app_data)
+```
+
+
+```{r 'shiny', eval=FALSE}
+# Not run, but to view Shiny app in Package
+irsApp(irs_app_data)
 ```
 
 We have made a public Shiny [IRS Tax Dashboard](https://luceyda.shinyapps.io/irs_dash/), which can be filtered by State, County, Post Office City and Zipcode. Once the geography is chosen, it is also possible to filter among the five income bands. Currently, the App has two tabs, one for the Summary Table and another for the AGI and tax rate graphs, but the data set is rich with more fields, such as mortgage and SALT deductions, dependents, Earned Income Credit by zipcode, which made it too large for us to include in the first iteration. We will be adding more in a future version, which will use our own as well `{golem}` package.
