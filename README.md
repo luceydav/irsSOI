@@ -6,18 +6,16 @@
 <!-- badges: start -->
 <!-- badges: end -->
 
-The goal of irs.soi is to …
+The `{irs.soi}` package has tools to download, clean and explore with a
+Shiny App the [IRS SOI Zip Code
+data](https://www.irs.gov/statistics/soi-tax-stats-individual-income-tax-statistics-zip-code-data-soi)
+as presented by the NBER [Individual Income Tax Statistics - ZIP Code
+Data
+(SOI)](Individual%20Income%20Tax%20Statistics%20-%20ZIP%20Code%20Data%20(SOI))
 
 ## Installation
 
-You can install the released version of irs.soi from
-[CRAN](https://CRAN.R-project.org) with:
-
-``` r
-install.packages("irs.soi")
-```
-
-And the development version from [GitHub](https://github.com/) with:
+The development version from [GitHub](https://github.com/) with:
 
 ``` r
 # install.packages("devtools")
