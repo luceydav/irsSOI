@@ -2,7 +2,6 @@ globalVariables(
   names = c(
     "irs_app_data",
     "zipcode",
-    "agi_class",
     "post_office_city",
     "year",
     "a00100",
@@ -16,10 +15,31 @@ globalVariables(
     "total_tax",
     "a09200",
     "a10300",
-    "population",
     "zipcode_type",
     "county",
-    "major_city"
-    )
-
+    "major_city",
+    "a00200",
+    "a00300",
+    "a00600",
+    "a01000",
+    "a02300",
+    "a04470",
+    "a09750",
+    "a18425",
+    "a18450",
+    "a18500",
+    "a19300",
+    "a59660",
+    "n00200",
+    "n00300",
+    "n00600",
+    "n01000",
+    "n02300",
+    "n02500",
+    "n18425",
+    "n18450",
+    "n18500",
+    "n19300",
+    "n2",
+    "population")
 )
