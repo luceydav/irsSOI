@@ -1,6 +1,7 @@
 globalVariables(
   names = c(
     "irs_app_data",
+    "data_dict",
     "zipcode",
     "post_office_city",
     "year",
