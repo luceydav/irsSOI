@@ -48,6 +48,13 @@ Load included sample data.table for the State of CT from 2005-2018 called `irs_a
 data("irs_app_data")
 ```
 
+The NBER has coded fields according to their own identifiers. Use `field_lookup()` to find the description.
+
+```{r 'field-lookup', echo=TRUE}
+field_lookup("2016", "a00100")
+```
+
+
 Make a Summary `datatable` for the State of CT with the `make_summary_DT()` function.
 
 ```{r 'summary', echo=TRUE}
