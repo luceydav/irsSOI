@@ -27,7 +27,9 @@ Imports:
     shiny,
     shinydashboard,
     shinyWidgets,
-    zipcodeR
+    zipcodeR,
+    rvest, 
+    xml2
 Suggests: 
     knitr,
     rmarkdown,
