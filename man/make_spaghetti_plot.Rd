@@ -4,12 +4,10 @@
 \alias{make_spaghetti_plot}
 \title{Plotly graph of comparing selected components}
 \usage{
-make_spaghetti_plot(data, entity = "state")
+make_spaghetti_plot(data)
 }
 \arguments{
 \item{data}{IRS data.table}
-
-\item{entity}{state, county, post_office_city, zipcode}
 }
 \description{
 Takes cleaned IRS data.table and makes Plotly graph of aggregated income divided by returns by selection

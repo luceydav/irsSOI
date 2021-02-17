@@ -6,7 +6,6 @@
 #' using output of [clean_soi()]
 #'
 #' @param data IRS data.table
-#' @param entity state, county, post_office_city, zipcode
 #'
 #' @examples
 #' \dontrun{
@@ -15,48 +14,49 @@
 #' @export
 # spaghetti of every town of average sales price used in Shiny app
 # town_name and property specified from Shiny ui
-make_spaghetti_plot <- function(data, entity = "state"){
+make_spaghetti_plot <- function(data) {
 
-  if (entity == "state" & length(unique(data$state) == 1) ) {
+  # data <-
+  #  fst::read_fst("/Users/davidlucey/Desktop/David/Projects/irs_soi_app/data/irs_app_data.fst")
+  data <- data.table::setDT(data)
+  # entity <- "zipcode"
+
+  # Change to smaller geography if only one level in chosen one
+  entity <- "state"
+  if ( length(unique(data$state)) == 1 ) {
     entity <- "county"
-  } else if (length(unique(data$county == 1 ))) {
+  }
+  if ( length(unique(data$county)) == 1 ) {
     entity <- "post_office_city"
   }
+  if (length(unique(data$post_office_city)) == 1 ) {
+    entity <- "zipcode"
+  }
 
-  if (nrow(unique(data[, entity, with = FALSE])) > 100 ) {
+  # Warning if too many levels in grouping variable
+  if (length(unique(data[, get(entity)])) > 100 ) {
     print("Suggest narrowing down choices")
   }
 
+  # Select cols needed for plot
   cols <- c("a00100", "year", "n1", entity)
   data <- data[, cols, with = FALSE]
 
-  # Prepare data for chart
+  # Prepare data for chart if not zipcode
   col <- setdiff(cols, c("year", "a00100", "n1"))
-  data <-
+  data1 <-
     data[,
-       { total = sum(a00100, na.rm = TRUE)
-         returns = sum(n1, na.rm = TRUE)
-         agi_cap = total /returns
-         list(agi_cap,
-              returns)},
-        by = c("year", col)]
-
-  # Change name of selected col
-  # data.table::setnames(
-  #   data,
-  #   c("year", entity),
-  #   c("Year", stringr::str_to_title(entity)))
-
-  #data[, (col) := lapply(.SD, as.factor), .SDcols = col]
-  # ks <- function(x) { scales::number_format(accuracy = 1,
-  #                                    scale = 1/1000,
-  #                                    suffix = "k",
-  #                                    big.mark = ",")(x) }
-
-  #data <- data[, data.table::melt(.SD, idvars= c("Year", entity))]
+         {
+           total = sum(a00100, na.rm = TRUE)
+           returns = sum(n1, na.rm = TRUE)
+           agi_cap = total / returns
+           list(agi_cap,
+                returns)
+         },
+         by = c("year", col)]
 
   plotly::ggplotly(
-    data[,
+    data1[,
      ggplot2::ggplot(.SD,
                      ggplot2::aes_string(
                        x = "year",
@@ -69,7 +69,7 @@ make_spaghetti_plot <- function(data, entity = "state"){
        #               `Average Price`,
        #               col = "red"),
                  # size = 0.5) +
-       ggplot2::scale_y_continuous(trans = "log10"
+       ggplot2::scale_y_continuous(trans = "pseudo_log"
                           #, labels = ks
                           ) +
        ggplot2::theme(
