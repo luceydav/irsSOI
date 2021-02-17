@@ -42,5 +42,6 @@ globalVariables(
     "n18500",
     "n19300",
     "n2",
-    "population")
+    "population",
+    "entity")
 )

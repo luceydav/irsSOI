@@ -22,6 +22,7 @@ Imports:
     janitor,
     glue,
     plotly,
+    ggplot2,
     DT,
     htmltools,
     shiny,

@@ -14,6 +14,7 @@
 #' @export
 irsApp <- function(data = irs_app_data) {
 
+  # If loading .fst from disc instead of built-in data, convert to data.table
   if( !identical(data, irs_app_data) ) {
     data <-  setDT(data, key = "zipcode")
   }
