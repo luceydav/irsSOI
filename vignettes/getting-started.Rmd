@@ -41,19 +41,24 @@ irs_app_data <- irs.soi::load_soi(path = path)
 irs_app_data <- irs.soi::prepare_app_data(irs_app_data)
 ```
 
+
+The NBER has coded fields according to their own identifiers. Use `field_lookup()` to find the description.
+
+```{r 'load-data-dict', echo=TRUE}
+data("data_dict")
+```
+
+
+```{r 'field-lookup', echo=TRUE}
+field_lookup(select_year = "2016", name = "a00100")
+```
+
 Load included sample data.table for the State of CT from 2005-2018 called `irs_app_data`. We have also 
 
 ```{r 'sample-CT-data', echo=TRUE}
 # Load built-in data
 data("irs_app_data")
 ```
-
-The NBER has coded fields according to their own identifiers. Use `field_lookup()` to find the description.
-
-```{r 'field-lookup', echo=TRUE}
-field_lookup("2016", "a00100")
-```
-
 
 Make a Summary `datatable` for the State of CT with the `make_summary_DT()` function.
 
