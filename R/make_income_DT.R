@@ -25,7 +25,7 @@ make_income_DT <- function(data) {
         salary = sum(as.numeric(a00200), na.rm = TRUE) / 1000000,
         div_int = (sum(as.numeric(a00300), na.rm = TRUE) + sum(as.numeric(a00600), na.rm = TRUE)) / 1000000,
         gains = sum(as.numeric(a01000), na.rm = TRUE) / 1000000,
-        unemploy = sum(as.numeric(a02300), na.rm = TRUE) / 1000
+        unemploy = sum(as.numeric(a02300), na.rm = TRUE) / 1000000
       ), by = year],
     colnames = c(
       "Year",
@@ -42,7 +42,7 @@ make_income_DT <- function(data) {
       ),
     caption = htmltools::tags$caption(
       style = 'caption-side: top; text-align: center;',
-      '', htmltools::em('Annual Aggregated AGI, Federal Tax, Total Returns and Unique Zipcodes by Selection')
+      '', htmltools::em('Annual Aggregated Salary, Dividend & Interest, Cap. Gains and Unemployment by Selection')
     ),
     rownames = FALSE
   ) %>%
