@@ -12,6 +12,8 @@
 #' @export
 make_summary_DT <- function(data) {
 
+  # data <- fst::read_fst("/Users/davidlucey/Desktop/David/Projects/irs_soi_app/data/irs_app_big.fst")
+
   if (length(data$zipcode) < 50) {
     digits <- 3
   } else {
@@ -25,16 +27,16 @@ make_summary_DT <- function(data) {
         tot_agi = sum(as.numeric(a00100), na.rm = TRUE) / 1000000,
         tot_tax = sum(as.numeric(total_tax), na.rm = TRUE) /
           1000000,
-        tot_returns = sum(as.numeric(n1), na.rm = TRUE) / 1000000,
+        tot_returns = sum(as.numeric(n1), na.rm = TRUE) / 1000,
         unique_zips = length(unique(zipcode))
       ),
       by = year],
     colnames = c(
       "Year",
-      "Total AGI ($B)",
-      "Federal Tax ($B)",
-      "Total Returns (m)",
-      "Unique Zips"
+      "AGI ($B)",
+      "Fed'l Tax ($B)",
+      "Returns (k)",
+      "Zips"
     ),
     options =
       list(
@@ -49,15 +51,10 @@ make_summary_DT <- function(data) {
     rownames = FALSE
   ) %>%
     DT::formatRound(
-      columns = c(2:3),
+      columns = c(2:4),
       mark = ",",
       digits = digits
-    )  %>%
-    DT::formatRound(
-      columns = 4,
-      mark = ",",
-      digits = digits
-    )%>%
+    ) %>%
     DT::formatRound(
       columns = 5,
       mark = ",",
