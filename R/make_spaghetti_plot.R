@@ -17,7 +17,7 @@
 make_spaghetti_plot <- function(data) {
 
   # data <-
-  #  fst::read_fst("/Users/davidlucey/Desktop/David/Projects/irs_soi_app/data/irs_app_data.fst")
+  #  fst::read_fst("/Users/davidlucey/Desktop/David/Projects/irs_soi_app/data/irs_app_big.fst")
   # Convert data to data.table if not one
   if (!data.table::is.data.table(data) ){
     data <- data.table::setDT(data)
@@ -56,8 +56,8 @@ make_spaghetti_plot <- function(data) {
                 returns)
          },
          by = c("year", col)]
-  data.table::setnames(data, names(data), c("Year", "State", "AGI", "Returns"))
-  entity <- stringr::str_to_title(entity)
+  col <- stringr::str_to_title(col)
+  data.table::setnames(data, names(data), c("Year", col, "AGI", "Returns"))
 
   #Plotly function
   plotly::ggplotly(
@@ -66,7 +66,7 @@ make_spaghetti_plot <- function(data) {
                      ggplot2::aes_string(
                        x = "Year",
                        y = "AGI",
-                       group = entity))+
+                       group = col)) +
        ggplot2::geom_line() +
        ggplot2::geom_point(ggplot2::aes(size = Returns)) +
        # geom_line(,
