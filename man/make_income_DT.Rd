@@ -2,7 +2,7 @@
 % Please edit documentation in R/make_income_DT.R
 \name{make_income_DT}
 \alias{make_income_DT}
-\title{Function to take incoming reactive data.frame, convert to data.table and build Summary DT}
+\title{Function to take incoming reactive data.frame, convert to data.table and build Income DT}
 \usage{
 make_income_DT(data)
 }
@@ -10,6 +10,5 @@ make_income_DT(data)
 \item{data}{IRS data.table}
 }
 \description{
-Makes a Summary datatable of AGI, Federal Tax, Total returns and Unique Zips by year
-using output of \code{\link[=clean_soi]{clean_soi()}}
+Makes a Income datatable of Salary, Divs/Int, Cap Gains and Unemploy. by year
 }

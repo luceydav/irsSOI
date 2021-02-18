@@ -20,33 +20,51 @@ prepare_app_data <- function(irs) {
       "zipcode",
       "state",
       "agi_level",
-      "a00100",
-      "a00200",
+      "a00100", # agi
+      "a00200", # salary
       "n00200",
       "total_tax",
       "n1",
-      "n2",
+      "n2", # exemptions
       "numdep",
-      "a01000",
+      "a01000", # gains
       "n01000",
-      "a02300",
+      "a02300", # unemploy
       "n02300",
-      "a59660",
-      "a09750",
-      "a04470",
+      "a09750", # healthcare indiv
+      "n09750",
+      "a04470", # total item deds
       "n02500",
-      "a18425",
+      "a18425", # sl tax
       "n18425",
-      "a18450",
+      "a18450", # sales tax
       "n18450",
-      "a18500",
+      "a18500", # RE tax
       "n18500",
-      "a19300",
+      "a19300", # mortgage
       "n19300",
-      "a00600",
+      "a19700", # contributions
+      "n19700",
+      "a09600", # amt
+      "n09600",
+      "a11000", # eitc (early)
+      "n11000",
+      "a59660", # eitc (late)
+      "n59660",
+      "a00600", # dividends
       "n00600",
-      "a00300",
-      "n00300"
+      "a00300", # interest
+      "n00300",
+      "a00900", # business inc
+      "n00900",
+      "a26270", # parnership/scorp net inc
+      "n26270",
+      "a85300", # net inv income tax (late)
+      "n85300",
+      "a01700", # pension/annuity
+      "n01700",
+      "a02500", # soc sec
+      "n02500"
     )
 
   # Load zips

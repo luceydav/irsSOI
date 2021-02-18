@@ -25,14 +25,16 @@ make_income_DT <- function(data) {
         salary = sum(as.numeric(a00200), na.rm = TRUE) / 1000000,
         div_int = (sum(as.numeric(a00300), na.rm = TRUE) + sum(as.numeric(a00600), na.rm = TRUE)) / 1000000,
         gains = sum(as.numeric(a01000), na.rm = TRUE) / 1000000,
-        unemploy = sum(as.numeric(a02300), na.rm = TRUE) / 1000000
+        business_partner = (sum(as.numeric(a00900), na.rm = TRUE) + sum(as.numeric(a26270), na.rm = TRUE)) / 1000000,
+        pension_ss = (sum(as.numeric(a01700), na.rm = TRUE) + sum(as.numeric(a02500), na.rm = TRUE)) / 1000000
       ), by = year],
     colnames = c(
       "Year",
       "Salary ($B)",
       "Div & Interest ($B)",
       "Cap. Gains ($B)",
-      "Unempl.($m)"
+      "Bus/Ptnr Inc ($B)",
+      "Pens/Soc Sec. ($B)"
     ),
     options =
       list(
@@ -47,15 +49,10 @@ make_income_DT <- function(data) {
     rownames = FALSE
   ) %>%
     DT::formatRound(
-      columns = c(2:3),
+      columns = c(2:6),
       mark = ",",
       digits = digits
     )  %>%
-    DT::formatRound(
-      columns = 4,
-      mark = ",",
-      digits = digits
-    )%>%
     DT::formatRound(
       columns = 5,
       mark = ",",

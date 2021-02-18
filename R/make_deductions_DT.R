@@ -28,14 +28,16 @@ make_deductions_DT <- function(data) {
         state_tax = (
           sum(as.numeric(a18425), na.rm = TRUE) / 1000000 + sum(as.numeric(a18450), na.rm = TRUE) / 1000000),
           re_tax = sum(as.numeric(a18500), na.rm = TRUE) / 1000000,
-          mortgage = sum(as.numeric(a19300), na.rm = TRUE) / 1000000
+          mortgage = sum(as.numeric(a19300), na.rm = TRUE) / 1000000,
+          charity = sum(as.numeric(a19700), na.rm = TRUE) / 1000000
         ), by = year],
     colnames = c(
       "Year",
       "Total Deduct. ($B)",
       "State Taxes ($B)",
       "Local (RE) Tax ($B)",
-      "Mortgage Int. ($B)"
+      "Mortgage Int. ($B)",
+      "Charitable ($B)"
     ),
     options =
       list(
@@ -50,7 +52,7 @@ make_deductions_DT <- function(data) {
     rownames = FALSE
     ) %>%
     DT::formatRound(
-      columns = c(2:5),
+      columns = c(2:6),
       mark = ",",
       digits = digits
     )
