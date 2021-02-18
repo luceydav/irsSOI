@@ -1,8 +1,7 @@
-#' Function to take incoming reactive data.frame, convert to data.table and build Summary DT
+#' Function to take incoming reactive data.frame, convert to data.table and build Income DT
 #'
 #' @description
-#' Makes a Summary datatable of AGI, Federal Tax, Total returns and Unique Zips by year
-#' using output of [clean_soi()]
+#' Makes a Income datatable of Salary, Divs/Int, Cap Gains and Unemploy. by year
 #'
 #' @param data IRS data.table
 #'
@@ -13,7 +12,7 @@
 make_income_DT <- function(data) {
   #data <- fst::read_fst("/Users/davidlucey/Desktop/David/Projects/irs_soi_app/data/irs_app_big.fst")
 
-  if (length(data$zipcode) < 50) {
+  if (length(data$zipcode) < 25) {
     digits <- 3
   } else {
     digits <- 1

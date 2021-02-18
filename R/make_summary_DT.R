@@ -14,7 +14,7 @@ make_summary_DT <- function(data) {
 
   # data <- fst::read_fst("/Users/davidlucey/Desktop/David/Projects/irs_soi_app/data/irs_app_big.fst")
 
-  if (length(data$zipcode) < 50) {
+  if (length(data$zipcode) < 25) {
     digits <- 3
   } else {
     digits <- 1
