@@ -4,10 +4,12 @@
 \alias{make_agi_graph}
 \title{Plotly graph of per capita items}
 \usage{
-make_agi_graph(data)
+make_agi_graph(data, type = "agi")
 }
 \arguments{
 \item{data}{IRS data.table}
+
+\item{type}{chr vector to specify if agi or per_cap}
 }
 \description{
 Takes cleaned IRS data.table and makes Plotly graph of aggregated income divided by returns by selection

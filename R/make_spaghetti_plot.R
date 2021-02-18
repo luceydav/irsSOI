@@ -18,8 +18,10 @@ make_spaghetti_plot <- function(data) {
 
   # data <-
   #  fst::read_fst("/Users/davidlucey/Desktop/David/Projects/irs_soi_app/data/irs_app_data.fst")
-  data <- data.table::setDT(data)
-  # entity <- "zipcode"
+  # Convert data to data.table if not one
+  if (!data.table::is.data.table(data) ){
+    data <- data.table::setDT(data)
+  }
 
   # Change to smaller geography if only one level in chosen one
   entity <- "state"
@@ -44,7 +46,7 @@ make_spaghetti_plot <- function(data) {
 
   # Prepare data for chart if not zipcode
   col <- setdiff(cols, c("year", "a00100", "n1"))
-  data1 <-
+  data <-
     data[,
          {
            total = sum(a00100, na.rm = TRUE)
@@ -54,16 +56,19 @@ make_spaghetti_plot <- function(data) {
                 returns)
          },
          by = c("year", col)]
+  data.table::setnames(data, names(data), c("Year", "State", "AGI", "Returns"))
+  entity <- stringr::str_to_title(entity)
 
+  #Plotly function
   plotly::ggplotly(
-    data1[,
+    data[,
      ggplot2::ggplot(.SD,
                      ggplot2::aes_string(
-                       x = "year",
-                       y = "agi_cap",
+                       x = "Year",
+                       y = "AGI",
                        group = entity))+
        ggplot2::geom_line() +
-       ggplot2::geom_point(ggplot2::aes(size = returns)) +
+       ggplot2::geom_point(ggplot2::aes(size = Returns)) +
        # geom_line(,
        #           aes(`Year`,
        #               `Average Price`,
@@ -81,7 +86,7 @@ make_spaghetti_plot <- function(data) {
          legend.position = "none"
        )+
        ggplot2::labs(title = "",
-            subtitle = "Selected municipality shown in red",
+            subtitle = "",
             caption = "Public data via IRS SOI",
             x = "Year",
             y = "Average Income per Cap - Log Scale ($K)") +

@@ -43,5 +43,6 @@ globalVariables(
     "n19300",
     "n2",
     "population",
-    "entity")
+    "entity",
+    "Returns")
 )
