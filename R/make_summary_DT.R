@@ -27,7 +27,7 @@ make_summary_DT <- function(data) {
         tot_agi = sum(as.numeric(a00100), na.rm = TRUE) / 1000000,
         tot_tax = sum(as.numeric(total_tax), na.rm = TRUE) /
           1000000,
-        tot_returns = sum(as.numeric(n1), na.rm = TRUE) / 1000,
+        tot_returns = sum(as.numeric(n1), na.rm = TRUE) / 1000000,
         unique_zips = length(unique(zipcode))
       ),
       by = year],
@@ -35,7 +35,7 @@ make_summary_DT <- function(data) {
       "Year",
       "AGI ($B)",
       "Fed'l Tax ($B)",
-      "Returns (k)",
+      "Returns (m)",
       "Zips"
     ),
     options =

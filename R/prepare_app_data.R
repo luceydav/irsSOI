@@ -57,7 +57,7 @@ prepare_app_data <- function(irs) {
       "n00300",
       "a00900", # business inc
       "n00900",
-      "a26270", # parnership/scorp net inc
+      "a26270", # pship/scorp net inc
       "n26270",
       "a85300", # net inv income tax (late)
       "n85300",
