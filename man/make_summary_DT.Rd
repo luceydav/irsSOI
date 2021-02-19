@@ -4,10 +4,12 @@
 \alias{make_summary_DT}
 \title{Function to take incoming reactive data.frame, convert to data.table and build Summary DT}
 \usage{
-make_summary_DT(data)
+make_summary_DT(data, type = "agi")
 }
 \arguments{
 \item{data}{IRS data.table}
+
+\item{type}{chr specifying how to display data}
 }
 \description{
 Makes a Summary datatable of AGI, Federal Tax, Total returns and Unique Zips by year

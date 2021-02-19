@@ -41,8 +41,15 @@ globalVariables(
     "n18450",
     "n18500",
     "n19300",
+    "a19700",
+    "a00900",
+    "a26270",
+    "a01700",
+    "a02500",
     "n2",
     "population",
     "entity",
-    "Returns")
+    "Returns",
+    "scope",
+    "scale")
 )

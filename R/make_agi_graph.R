@@ -3,7 +3,7 @@
 #'
 #' @description
 #' Takes cleaned IRS data.table and makes Plotly graph of aggregated income divided by returns by selection
-#' using output of [clean_soi()]
+#' using output of [prepare_app_data()]
 #'
 #' @param data IRS data.table
 #' @param type chr vector to specify if agi or per_cap
@@ -20,7 +20,7 @@ make_agi_graph <- function(data, type = "agi") {
   # Convert data to data.table if not one
   if (!data.table::is.data.table(data) ){
     data <- data.table::setDT(data)
-  }
+  } else { data <- copy(data) }
 
   # Choose chart type function
   if (type == "agi") {

@@ -4,12 +4,14 @@
 \alias{make_deductions_DT}
 \title{Function to take incoming reactive data.frame, convert to data.table and build Summary DT}
 \usage{
-make_deductions_DT(data)
+make_deductions_DT(data, type = "agi")
 }
 \arguments{
 \item{data}{IRS data.table}
+
+\item{type}{chr specifying how to display data}
 }
 \description{
 Makes a Summary datatable of AGI, Federal Tax, Total returns and Unique Zips by year
-using output of \code{\link[=clean_soi]{clean_soi()}}
+using output of \code{\link[=prepare_app_data]{prepare_app_data()}}
 }

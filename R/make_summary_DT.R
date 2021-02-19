@@ -6,35 +6,71 @@
 #' using output of [clean_soi()]
 #'
 #' @param data IRS data.table
+#' @param type chr specifying how to display data
 #'
 #' @importFrom stats setNames
 #'
 #' @export
-make_summary_DT <- function(data) {
+make_summary_DT <- function(data, type = "agi") {
 
-  # data <- fst::read_fst("/Users/davidlucey/Desktop/David/Projects/irs_soi_app/data/irs_app_big.fst")
+  # data <-
+  #  fst::read_fst("/Users/davidlucey/Desktop/David/Projects/irs_soi_app/data/irs_app_data.fst")
 
-  if (length(data$zipcode) < 25) {
+  # Convert data to data.table if not one
+  if (!data.table::is.data.table(data) ){
+    data <- data.table::setDT(data)
+  } else { data <- copy(data) }
+
+  # Set scale as filtered down to zipcode
+  if (length(data$zipcode) < 25 & type == "agi") {
     digits <- 3
   } else {
     digits <- 1
   }
 
+  if( type == "agi") {
+
+      data <- data[,
+        list(
+          tot_agi = sum(as.numeric(a00100), na.rm = TRUE) / 1000000,
+          tot_tax = sum(as.numeric(total_tax), na.rm = TRUE) /
+            1000000,
+          tot_returns = sum(as.numeric(n1), na.rm = TRUE) / 1000000,
+          unique_zips = length(unique(zipcode))
+        ),
+        by = year]
+
+  } else {
+
+      data <- data[,
+        { tot_agi = sum(as.numeric(a00100), na.rm = TRUE) / 1000000
+        tot_tax = sum(as.numeric(total_tax), na.rm = TRUE) /
+          1000000
+        tot_returns = sum(as.numeric(n1), na.rm = TRUE) / 1000000
+        unique_zips = length(unique(zipcode))
+        n1 = sum(as.numeric(n1), na.rm=TRUE) / 1000000
+        list(agi_cap = tot_agi / n1,
+             tax_cap = tot_tax / n1,
+             tot_returns,
+             unique_zips)
+        },
+        by = year]
+
+  }
+
+  # Fix labels
+  scale <- ifelse(type == "per_cap", "$k", "$B")
+  scope <- ifelse(type == "per_cap", "Per Cap", "Aggregated Total")
+  type <- ifelse(type == "per_cap", "Per Capita ", "")
+
+  # Table
   # https://taxfoundation.org/federal-tax-revenue-source-1934-2018/
   DT::datatable(
-    data.table::setDT(data)[,
-      list(
-        tot_agi = sum(as.numeric(a00100), na.rm = TRUE) / 1000000,
-        tot_tax = sum(as.numeric(total_tax), na.rm = TRUE) /
-          1000000,
-        tot_returns = sum(as.numeric(n1), na.rm = TRUE) / 1000000,
-        unique_zips = length(unique(zipcode))
-      ),
-      by = year],
+    data,
     colnames = c(
       "Year",
-      "AGI ($B)",
-      "Fed'l Tax ($B)",
+      glue::glue("AGI {type}{scale}"),
+      glue::glue("Fed'l Tax {type}{scale}"),
       "Returns (m)",
       "Zips"
     ),
@@ -46,7 +82,7 @@ make_summary_DT <- function(data) {
       ),
     caption = htmltools::tags$caption(
       style = 'caption-side: top; text-align: center;',
-      '', htmltools::em('Annual Aggregated AGI, Federal Tax, Total Returns and Unique Zipcodes by Selection')
+      '', htmltools::em(glue::glue('Annual {scope} AGI, Federal Tax, Total Returns and Unique Zipcodes by Selection'))
     ),
     rownames = FALSE
   ) %>%

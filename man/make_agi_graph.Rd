@@ -13,7 +13,7 @@ make_agi_graph(data, type = "agi")
 }
 \description{
 Takes cleaned IRS data.table and makes Plotly graph of aggregated income divided by returns by selection
-using output of \code{\link[=clean_soi]{clean_soi()}}
+using output of \code{\link[=prepare_app_data]{prepare_app_data()}}
 }
 \examples{
 \dontrun{

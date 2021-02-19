@@ -4,10 +4,12 @@
 \alias{make_income_DT}
 \title{Function to take incoming reactive data.frame, convert to data.table and build Income DT}
 \usage{
-make_income_DT(data)
+make_income_DT(data, type = "agi")
 }
 \arguments{
 \item{data}{IRS data.table}
+
+\item{type}{chr specifying how to display data}
 }
 \description{
 Makes a Income datatable of Salary, Divs/Int, Cap Gains and Unemploy. by year
