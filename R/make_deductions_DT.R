@@ -22,7 +22,7 @@ make_deductions_DT <- function(data, type = "agi") {
     data <- data.table::setDT(data)
   } else { data <- copy(data) }
 
-  if (length(data$zipcode) < 25) {
+  if (length(data$zipcode) < 500) {
     digits <- 3
   } else {
     digits <- 1
@@ -87,7 +87,7 @@ if( type == "agi") {
       ),
     caption = htmltools::tags$caption(
       style = 'caption-side: top; text-align: center;',
-      '', htmltools::em(glue::glue('Annual {scope} Deductions, State Taxes, Local Taxes and Mortgage Int. by Selection'))
+      '', htmltools::em(glue::glue('Annual {scope} Deductions, State Tax, Local Tax, Mortgage Int. & Charitable Donations by Selection'))
     ),
     rownames = FALSE
     ) %>%

@@ -22,7 +22,7 @@ make_summary_DT <- function(data, type = "agi") {
   } else { data <- copy(data) }
 
   # Set scale as filtered down to zipcode
-  if (length(data$zipcode) < 25 & type == "agi") {
+  if (length(data$zipcode) < 500 & type == "agi") {
     digits <- 3
   } else {
     digits <- 1
@@ -82,7 +82,7 @@ make_summary_DT <- function(data, type = "agi") {
       ),
     caption = htmltools::tags$caption(
       style = 'caption-side: top; text-align: center;',
-      '', htmltools::em(glue::glue('Annual {scope} AGI, Federal Tax, Total Returns and Unique Zipcodes by Selection'))
+      '', htmltools::em(glue::glue('Annual {scope} AGI, Federal Tax, Total Returns and Unique Zips by Selection'))
     ),
     rownames = FALSE
   ) %>%
