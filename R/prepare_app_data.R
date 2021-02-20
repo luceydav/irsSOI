@@ -20,10 +20,11 @@ prepare_app_data <- function(irs) {
       "zipcode",
       "state",
       "agi_level",
+      "population",
       "a00100", # agi
       "a00200", # salary
       "n00200",
-      "total_tax",
+      "total_tax", # derived
       "n1",
       "n2", # exemptions
       "numdep",
@@ -79,7 +80,8 @@ prepare_app_data <- function(irs) {
       population
     )]
 
-  # Selcct cols from full IRS dataset
+  # Select specified columns, then filter any zip codes where
+  # number of returns < 100 in any year in specified year range
   data <- data[, .SD, .SDcols = cols][
     !zipcode %chin% data[, .SD[sum(n1) < 100],
                       list(zipcode, year)]$zipcode]
