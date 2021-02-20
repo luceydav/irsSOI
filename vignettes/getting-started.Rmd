@@ -2,7 +2,7 @@
 title: "Getting Started with IRS SOI Data"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Getting Started Working with IRS SOI Data}
+  %\VignetteIndexEntry{Getting Started with IRS SOI Data}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -25,29 +25,45 @@ library(irs.soi)
 
 
 
-The NBER [Individual Income Tax Statistics - ZIP Code](Individual Income Tax Statistics - ZIP Code) cleans the [IRS SOI data][https://www.irs.gov/statistics/soi-tax-stats-individual-income-tax-statistics-zip-code-data-soi] and makes the data from 2005-2016 available for download. We built a function `download_nber_data()` to download based on specified years. Each year takes about 1 minute and 75MB of data. If no path specified, makes a file called "data" in the working directory. 
+The NBER [Individual Income Tax Statistics - ZIP Code](Individual Income Tax Statistics - ZIP Code) cleans the [IRS SOI data][https://www.irs.gov/statistics/soi-tax-stats-individual-income-tax-statistics-zip-code-data-soi] and makes data from 2005-2016 available for download. The `{irs.soi}` package makes the selected data available as a data.table through a complete work flow as shown below.
 
-```{r 'download-nber', eval=FALSE}
-#Not run
-download_nber_data(start_year = 2015, end_year = 2016)
-```
-
-The `load_soi()` function takes all the data in the specified folder, loads and row binds all years to return a data.table. Because of changes over time, annual data sometimes has different variable names and threshold for income bands. We have aggregated income bands where possible. For example, early years had separate bands for \<\$<10k and \<\$25k, and the later years have only \<\$25k, so we aggregated the totals of the two bands into one. We unfortunately also had to combine \<\$100k and \<\$250k, but this would have made a more meaningful high income category. We have also sometimes coalesced variables which were the same, but called different names over time.
-
-```{r 'load-prepare-soi', eval=FALSE}
+```{r 'workflow', eval=FALSE}
 # Not run but to show if not using built-in data
+
+# Download data from NBER IRS SOI website
 path <- "./data/"
+download_nber_data(path = path, start_year = 2015, end_year = 2016)
+
+# Load data from specified folder
 irs_app_data <- irs.soi::load_soi(path = path)
+
+# Clean and standardize income bands
+irs_app_data <- irs.soi::clean_soi(irs_app_data)
+
+# Prepare data for use in Shiny app
 irs_app_data <- irs.soi::prepare_app_data(irs_app_data)
 ```
 
 
-The NBER has coded fields according to their own identifiers. Use `field_lookup()` to find the description.
+We built a function `download_nber_data()` to download based on specified years and load into a specified folder. Each year takes about 1 minute and 75MB of data. If no path specified, the function makes a file called "data" in the working directory. 
+
+Once the chosen years have been downloaded, the `load_soi()` function takes all the data in the specified folder, loads and row binds all years to return a data.table. Because of changes over time, annual data sometimes has different variable names and threshold for income bands. 
+
+In `clean_soi()`, we perform an number of cleaning functions. For example, zip codes with a leading zero have only 4 digits, and the years of 2007-2008 round by 1000 when other years don't. We have also aggregated income bands where possible. For example, early years had separate bands for \<\$<10k and \<\$25k, and the later years have only \<\$25k, so we aggregated the totals of the two bands into one. We unfortunately also had to combine \<\$100k and \<\$250k, but this would have made a more meaningful high income category. We have also sometimes coalesced variables which were the same, but called different names over time.
+
+Lastly, `prepare_app_data()` selects columns which are consistent over the period or where consistent fields could be derived. It filters out any zipcodes where there are fewer than 100 returns in any given period of the specified data, and add population data by zip code. Although there are approximate 42,000 zip codes in the country, our data has 24,143. Many zip codes are actually P.O. Boxes with no people, and others have very few people. We estimate the that the lost income in any given year is between $100-150 billion.
+
 
 ```{r 'load-data-dict', echo=TRUE}
 data("data_dict")
+
+# Show some descriptions from 2016
+d <- data_dict[year == "2016"]
+DT::datatable(d[, unlist(row_lists), names],
+              colnames = c("Name", "Description"))
 ```
 
+The NBER has coded fields according to their own identifiers. Use `field_lookup()` to find the description.
 
 ```{r 'field-lookup', echo=TRUE}
 field_lookup(select_year = "2016", name = "a00100")
@@ -84,4 +100,4 @@ make_tax_graph(irs_app_data)
 irsApp(irs_app_data)
 ```
 
-We have made a public Shiny [IRS Tax Dashboard](https://luceyda.shinyapps.io/irs_dash/), which can be filtered by State, County, Post Office City and Zipcode. Once the geography is chosen, it is also possible to filter among the five income bands. Currently, the App has two tabs, one for the Summary Table and another for the AGI and tax rate graphs, but the data set is rich with more fields, such as mortgage and SALT deductions, dependents, Earned Income Credit by zipcode, which made it too large for us to include in the first iteration. We will be adding more in a future version, which will use our own as well `{golem}` package.
+We have made a public Shiny [IRS Tax Dashboard](https://luceyda.shinyapps.io/irs_dash/), which can be filtered by State, County, Post Office City and Zipcode. Once the geography is chosen, it is also possible to filter among the five income bands. Currently, the App has two tabs, one for the Summary Table and another for the AGI and tax rate graphs, but the data set is rich with more fields, such as mortgage and SALT deductions, dependents, Earned Income Credit by zip code, which made it too large for us to include in the first iteration. We will be adding more in a future version, which will use our own as well `{golem}` package.
