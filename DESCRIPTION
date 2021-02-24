@@ -1,4 +1,4 @@
-Package: irs.soi
+Package: irsSOI
 Title: Tools to load and explore IRS SOI Zip Data
 Version: 0.0.0.9000
 Authors@R: 

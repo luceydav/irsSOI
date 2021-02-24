@@ -20,12 +20,12 @@ knitr::opts_chunk$set(
 
 ```{r setup}
 knitr::opts_chunk$set(echo = TRUE)
-library(irs.soi)
+library(irsSOI)
 ```
 
 
 
-The NBER [Individual Income Tax Statistics - ZIP Code](Individual Income Tax Statistics - ZIP Code) cleans the [IRS SOI data][https://www.irs.gov/statistics/soi-tax-stats-individual-income-tax-statistics-zip-code-data-soi] and makes data from 2005-2016 available for download. The `{irs.soi}` package makes the selected data available as a data.table through a complete work flow as shown below.
+The NBER [Individual Income Tax Statistics - ZIP Code](Individual Income Tax Statistics - ZIP Code) cleans the [IRS SOI data][https://www.irs.gov/statistics/soi-tax-stats-individual-income-tax-statistics-zip-code-data-soi] and makes data from 2005-2016 available for download. The `{irsSOI}` package makes the selected data available as a data.table through a complete work flow as shown below.
 
 ```{r 'workflow', eval=FALSE}
 # Not run but to show if not using built-in data
@@ -35,13 +35,13 @@ path <- "./data/"
 download_nber_data(path = path, start_year = 2015, end_year = 2016)
 
 # Load data from specified folder
-irs_app_data <- irs.soi::load_soi(path = path)
+irs_app_data <- irsSOI::load_soi(path = path)
 
 # Clean and standardize income bands
-irs_app_data <- irs.soi::clean_soi(irs_app_data)
+irs_app_data <- irsSOI::clean_soi(irs_app_data)
 
 # Prepare data for use in Shiny app
-irs_app_data <- irs.soi::prepare_app_data(irs_app_data)
+irs_app_data <- irsSOI::prepare_app_data(irs_app_data)
 ```
 
 
