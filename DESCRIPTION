@@ -14,23 +14,21 @@ License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.1.1
+RoxygenNote: 7.2.3
 Imports: 
     magrittr,
     data.table,
-    stringr,
-    janitor,
     glue,
     plotly,
     ggplot2,
     DT,
     htmltools,
-    shiny,
-    shinydashboard,
-    shinyWidgets,
     zipcodeR,
-    rvest, 
-    xml2
+    rvest,
+    xml2,
+    re2,
+    stringr,
+    janitor
 Suggests: 
     knitr,
     rmarkdown,

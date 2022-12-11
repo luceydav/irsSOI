@@ -16,7 +16,11 @@
 #' \dontrun{library(data.table)
 #' irs <- load_soi("/home/irs_data/")}
 #'
+#' @import data.table
 #' @importFrom stats setNames
+#' @importFrom glue glue
+#' @importFrom janitor clean_names
+#' @importFrom stringr str_extract
 #'
 #' @export
 load_soi <- function(state = "", path = path) {

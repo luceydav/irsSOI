@@ -12,6 +12,10 @@
 #' \dontrun{
 #' make_agi_graph(irs)}
 #'
+#' @import data.table
+#' @import plotly
+#' @importFrom glue glue
+#'
 #' @export
 make_agi_graph <- function(data, type = "agi") {
 

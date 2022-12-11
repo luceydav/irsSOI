@@ -20,6 +20,6 @@ Download time is approximately 1 minute per year and 75MB per year
 }
 \examples{
 \dontrun{library(data.table)
- download_nber_data(start = 2016)}
+ download_nber_data(start = 2005)}
 
 }

@@ -12,7 +12,9 @@
 #'
 #' @examples
 #' \dontrun{library(data.table)
-#'  download_nber_data(start = 2016)}
+#'  download_nber_data(start = 2005)}
+#'
+#' @import data.table
 #'
 #' @export
 download_nber_data <- function(path = "", start_year, end_year) {
@@ -46,7 +48,7 @@ download_nber_data <- function(path = "", start_year, end_year) {
     url <-
       glue::glue("https://data.nber.org/tax-stats/zipcode/{year}/zipcode{year}.csv")
     print(glue::glue("Downloading {year}"))
-    file <- fread(url)
-    fwrite(file, glue::glue("{path}zipcode_{year}.csv"))
+    file <- data.table::fread(url)
+    data.table::fwrite(file, glue::glue("{path}zipcode_{year}.csv"))
   })
 }

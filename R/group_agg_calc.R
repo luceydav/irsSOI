@@ -8,6 +8,8 @@
 #' @param soi_number Income or deduction chr value
 #' @param soi_count Returns reporting income or deduction chr value
 #'
+#' @import data.table
+#'
 #' @export
 group_agg_calc <- function(data, soi_number = "a00100", soi_count = "n1") {
 

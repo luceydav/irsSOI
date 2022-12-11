@@ -2,7 +2,7 @@
 % Please edit documentation in R/prepare_app_data.R
 \name{prepare_app_data}
 \alias{prepare_app_data}
-\title{Function to select cols and add city/county to irs for use in \code{\link[=irsApp]{irsApp()}}}
+\title{Function to select cols and add city/county}
 \usage{
 prepare_app_data(irs)
 }

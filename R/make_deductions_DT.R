@@ -8,10 +8,13 @@
 #' @param data IRS data.table
 #' @param type chr specifying how to display data
 #'
+#' @import data.table
+#' @import DT
+#' @import htmltools
 #' @importFrom stats setNames
+#' @importFrom glue glue
 #'
 #' @export
-#'
 make_deductions_DT <- function(data, type = "agi") {
 
   # data <-

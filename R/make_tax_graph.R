@@ -10,6 +10,9 @@
 #' \dontrun{
 #' make_tax_graph(irs)}
 #'
+#' @import data.table
+#' @import plotly
+#'
 #' @export
 make_tax_graph <- function(data) {
 
@@ -46,7 +49,7 @@ make_tax_graph <- function(data) {
             format(
               `Returns`,
               big.mark = ",",
-              digits = 0,
+              #digits = 0,
               scientific = FALSE
             )
           )

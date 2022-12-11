@@ -1,4 +1,4 @@
-#' Function to select cols and add city/county to irs for use in [irsApp()]
+#' Function to select cols and add city/county
 #'
 #' @description
 #' Helper to
@@ -8,6 +8,9 @@
 #' @examples
 #' \dontrun{library(data.table)
 #' irs_app_data <- prepare_app_data(irs)}
+#'
+#' @import data.table
+#' @importFrom glue glue_data
 #'
 #' @export
 prepare_app_data <- function(irs) {

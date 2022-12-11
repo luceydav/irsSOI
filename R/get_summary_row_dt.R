@@ -7,6 +7,9 @@
 #'
 #' @param irs IRS data.table
 #'
+#' @import data.table
+#' @importFrom re2 re2_detect
+#'
 #' @export
 get_summary_row_dt <- function(irs) {
 
@@ -21,7 +24,7 @@ get_summary_row_dt <- function(irs) {
   dt_zips[, `:=`(
     zipcode =
       data.table::fifelse(
-        !stringr::str_detect(zipcode, "^\\d{4}$"),
+        !re2::re2_detect(zipcode, "^\\d{4}$"),
         zipcode,
         paste0("0", zipcode)))]
 

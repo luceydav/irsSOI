@@ -11,6 +11,9 @@
 #' \dontrun{
 #' make_spaghetti_plot(irs_app_data, "zipcode")}
 #'
+#' @import data.table
+#' @importFrom stringr str_to_title
+#'
 #' @export
 # spaghetti of every town of average sales price used in Shiny app
 # town_name and property specified from Shiny ui

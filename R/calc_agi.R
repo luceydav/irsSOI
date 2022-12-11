@@ -7,6 +7,8 @@
 #' @param x a00100 (AGI)
 #' @param y n1 (number of returns)
 #'
+#' @import data.table
+#'
 #' @export
 calc_agi <- function(x, y) {
 

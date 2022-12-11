@@ -6,6 +6,7 @@
 #'
 #' @param agi_level A State ID Code
 #'
+#' @import data.table
 #'
 #' @export
 convert_agi <- function(agi_level) {

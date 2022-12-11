@@ -8,6 +8,9 @@
 #'
 #' @param irs_raw Uncleaned data.table of annual tax data
 #'
+#' @import data.table
+#' @importFrom re2 re2_detect re2_which
+#'
 #' @export
 clean_soi <- function(irs_raw) {
 
@@ -36,14 +39,14 @@ clean_soi <- function(irs_raw) {
     # Coalesce diff dependent variable name from pre 2007
     irs_raw[, numdep := data.table::fcoalesce(numdep, n6)]
   } else if ("n6" %chin% names(irs_raw) ) {
-    setnames(irs_raw, "n6", "numdep")
+    data.table::setnames(irs_raw, "n6", "numdep")
   }
 
   ## Convert all state abbreviations to upper case and all zipcodes to 5-digit
   irs_raw[, `:=`(
     zipcode =
       fifelse(
-        !stringr::str_detect(zipcode, "^\\d{4}$"),
+        !re2::re2_detect(zipcode, "^\\d{4}$"),
         zipcode,
         paste0("0", zipcode)))]
 
@@ -91,7 +94,7 @@ clean_soi <- function(irs_raw) {
   irs_raw <- irs_raw[, .SD[.N == complete_zipcode], zipcode]
 
   ## Divide numeric amount columns by 1000 for 2007 and 2008 to equalize with other years
-  cols <- names(irs_raw)[stringr::str_which(names(irs_raw), "^a\\d{5}")]
+  cols <- names(irs_raw)[re2::re2_which(names(irs_raw), "^a\\d{5}")]
   if ( any(c("2016", "2008") %chin% unique(irs_raw$year)) ) {
     irs_raw[year %in% c("2007", "2008"),
         (cols) := lapply(.SD, function(x)
@@ -114,6 +117,6 @@ clean_soi <- function(irs_raw) {
   data.table::setkeyv(irs_raw, c("year", "zipcode"))
 
   #Return
-  #return(irs_raw)
+  return(irs_raw)
 
 }

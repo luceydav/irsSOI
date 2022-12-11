@@ -1,10 +1,10 @@
 library(testthat)
-library(irs.soi)
+library(irsSOI)
 
 library(data.table)
 library(DT)
 library(plotly)
 
-test_check("irs.soi")
+#test_check("irsSOI")
 
 
