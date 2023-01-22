@@ -21,9 +21,13 @@ prepare_app_data <- function(irs) {
     c(
       "year",
       "zipcode",
+      "zipcode_type",
       "state",
+      "county",
+      "major_city",
       "agi_level",
       "population",
+      "post_office_city",
       "a00100", # agi
       "a00200", # salary
       "n00200",
@@ -83,18 +87,18 @@ prepare_app_data <- function(irs) {
       population
     )]
 
+  # Join to add county, city and population
+  data <- zips[data, on = "zipcode"]
+
   # Select specified columns, then filter any zip codes where
   # number of returns < 100 in any year in specified year range
   data <- data[, .SD, .SDcols = cols][
     !zipcode %chin% data[, .SD[sum(n1) < 100],
-                      list(zipcode, year)]$zipcode]
-
-  # Join to add county, city and population
-  data <- zips[data, on = "zipcode"]
+                         list(zipcode, year)]$zipcode]
 
   # Adjust cities with missing post office
   data[is.na(post_office_city),
-    post_office_city := glue::glue_data(.SD, "Smaller City, {state}")]
+       post_office_city := glue::glue_data(.SD, "Smaller City, {state}")]
   data[, county := data.table::fifelse(
     is.na(county),
     glue::glue_data(.SD, "Smaller County, {state}"),
