@@ -84,7 +84,7 @@ if( type == "agi") {
     ),
     options =
       list(
-        pageLength = 15,
+        pageLength = 16,
         scrollY = TRUE,
         dom = 't'
       ),

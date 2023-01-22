@@ -53,6 +53,6 @@ irs_app_data
 }
 \description{
 Sample of cleaned up IRS Data product after running load_soi() and clean_soi()
-Only includes 2018 for CT
+Only includes 2020 for CT
 }
 \keyword{datasets}

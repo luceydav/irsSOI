@@ -1,7 +1,7 @@
 #' Clean IRS Data for Shiny App
 #'
 #' Sample of cleaned up IRS Data product after running load_soi() and clean_soi()
-#' Only includes 2018 for CT
+#' Only includes 2020 for CT
 #'
 #' @format A data frame with 2033904 rows and 36 variables:
 #' \describe{
