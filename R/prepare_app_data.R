@@ -42,7 +42,6 @@ prepare_app_data <- function(irs) {
       "a09750", # healthcare indiv
       "n09750",
       "a04470", # total item deds
-      "n02500",
       "a18425", # sl tax
       "n18425",
       "a18450", # sales tax
