@@ -59,14 +59,14 @@ load_soi <- function(state = "", path = path) {
           data.table::fread(file,
                             colClasses = col_classes,
                             col.names = cols,
-                            nThread = 3)
+                            nThread = 4)
       } else {
         data <-
           data.table::fread(
             cmd = glue::glue("{command}{file}"),
             colClasses = col_classes,
             col.names = cols,
-            nThread = 3
+            nThread = 4
           )
       }
 
