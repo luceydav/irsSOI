@@ -8,10 +8,6 @@
 #'
 #' @param irs_raw Uncleaned data.table of annual tax data
 #'
-#' @import data.table
-#' @importFrom re2 re2_detect re2_which
-#'
-#' @export
 clean_soi <- function(irs_raw) {
 
   # Make copy
@@ -24,11 +20,10 @@ clean_soi <- function(irs_raw) {
   data.table::setkey(irs_raw, zipcode)
 
   # Remove pre-formatted summary rows
-  irs_raw <-
-    irs_raw[!zipcode %chin% c("00000", "99999", "0", "")]
+  irs_raw <- irs_raw[!zipcode %chin% c("00000", "99999", "0", "")]
 
   ## Fill in bad agi_class allocations in 2006 data
-  if ( "agi_class" %chin% names(irs_raw) ) {
+  if ("agi_class" %chin% names(irs_raw)) {
     irs_raw[as.integer(year) < 2008 &
           as.integer(agi_class) > 7,
         agi_class := calc_agi(a00100, n1)]
@@ -38,24 +33,24 @@ clean_soi <- function(irs_raw) {
   if ("n6" %chin% names(irs_raw) & "numdep" %chin% names(irs_raw)) {
     # Coalesce diff dependent variable name from pre 2007
     irs_raw[, numdep := data.table::fcoalesce(numdep, n6)]
-  } else if ("n6" %chin% names(irs_raw) ) {
+  } else if ("n6" %chin% names(irs_raw)) {
     data.table::setnames(irs_raw, "n6", "numdep")
   }
 
   ## Convert all state abbreviations to upper case and all zipcodes to 5-digit
-  irs_raw[, `:=`(
-    zipcode =
-      fifelse(
+  irs_raw[
+    , zipcode := data.table::fifelse(
         !re2::re2_detect(zipcode, "^\\d{4}$"),
         zipcode,
-        paste0("0", zipcode)))]
+        paste0("0", zipcode)
+        )]
 
   #Fix unequal income brackets
-  if ( "agi_class" %in% names(irs_raw) ) {
+  if ("agi_class" %in% names(irs_raw)) {
     irs_raw[as.integer(year) <= 2008,
         agi_level := convert_agi(agi_class)]
   }
-  if ( "agi_stub" %chin% names(irs_raw) ) {
+  if ("agi_stub" %chin% names(irs_raw)) {
     irs_raw[as.integer(year) > 2008,
         agi_level := convert_agi_2(agi_stub)]
   }
@@ -70,7 +65,7 @@ clean_soi <- function(irs_raw) {
       "agi_class",
       "agi_stub")
   drops <- names(irs_raw)[names(irs_raw) %in% cols]
-  if ( length(drops) > 0 ) {
+  if (length(drops) > 0) {
     irs_raw[, c(drops) := NULL]
   }
 
@@ -95,19 +90,19 @@ clean_soi <- function(irs_raw) {
 
   ## Divide numeric amount columns by 1000 for 2007 and 2008 to equalize with other years
   cols <- names(irs_raw)[re2::re2_which(names(irs_raw), "^a\\d{5}")]
-  if ( any(c("2016", "2008") %chin% unique(irs_raw$year)) ) {
+  if (any(c("2016", "2008") %chin% unique(irs_raw$year))) {
     irs_raw[year %in% c("2007", "2008"),
         (cols) := lapply(.SD, function(x)
           x / 1000), .SDcols = cols]
   }
 
   ##Merge total tax variables from pre and post 2007 into total tax
-  if ( all(any(as.numeric(irs_raw$year) >= 2007) & any(as.numeric(irs_raw$year) < 2007)) ) {
+  if (all(any(as.numeric(irs_raw$year) >= 2007) & any(as.numeric(irs_raw$year) < 2007))) {
     irs_raw[, total_tax :=
           data.table::fcase(
             as.numeric(year) < 2007, a09200,
             as.numeric(year) >= 2007, a10300)]
-    } else if ( all(as.numeric(irs_raw$year) < 2007) ) {
+    } else if (all(as.numeric(irs_raw$year) < 2007)) {
       irs_raw[, total_tax := a09200]
     } else {
       irs_raw[, total_tax := a10300]

@@ -7,15 +7,10 @@
 #'
 #' @param irs IRS data.table
 #'
-#' @import data.table
-#' @importFrom re2 re2_detect
-#'
-#' @export
 get_summary_row_dt <- function(irs) {
 
   # Copies irs data and keeps zipcode, year and number of returns
-  dt_zips <-
-    data.table::copy(irs)[, list(zipcode, year, n1)]
+  dt_zips <- data.table::copy(irs)[, list(zipcode, year, n1)]
 
   #Set key cols
   data.table::setkey(dt_zips, year)
@@ -29,8 +24,7 @@ get_summary_row_dt <- function(irs) {
         paste0("0", zipcode)))]
 
   #Remove pre-formatted summary rows
-  dt_zips <-
-    dt_zips[zipcode %chin% c("00000", "99999", "0")]
+  dt_zips <- dt_zips[zipcode %chin% c("00000", "99999", "0")]
 
   return(dt_zips)
 }

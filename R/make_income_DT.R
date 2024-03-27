@@ -20,8 +20,9 @@ make_income_DT <- function(data, type = "agi") {
 
   # Convert data to data.table if not one
   if (!data.table::is.data.table(data) ){
-    data <- data.table::setDT(data)
-  } else { data <- copy(data) }
+    data.table::setDT(data)
+  } else {
+    data <- data.table::copy(data) }
 
   if (length(data$zipcode) < 500) {
     digits <- 3

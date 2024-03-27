@@ -16,11 +16,7 @@
 #' \dontrun{library(data.table)
 #' irs <- load_soi("/home/irs_data/")}
 #'
-#' @import data.table
 #' @importFrom stats setNames
-#' @importFrom glue glue
-#' @importFrom janitor clean_names
-#' @importFrom stringr str_extract
 #'
 #' @export
 load_soi <- function(state = "", path = path) {
@@ -28,14 +24,12 @@ load_soi <- function(state = "", path = path) {
   # Directory
   files <- list.files(path = path, full.names = TRUE)
 
-  state_code <-
-    paste0("'", paste(state, tolower(state), sep = "|"), "'")
+  state_code <- paste0("'", paste(state, tolower(state), sep = "|"), "'")
   command <-
     data.table::fifelse(state != "", glue::glue("grep -E {state_code} "), glue::glue(""))
 
   # Get years
-  year <-
-    stringr::str_extract(list.files(path, full.names = TRUE), "\\d{4}")
+  year <- re2::re2_match(files, "\\d{4}")[,1]
 
   # Regex match for rows with 'CT/ct'
   irs <- data.table::rbindlist(
@@ -43,12 +37,13 @@ load_soi <- function(state = "", path = path) {
     setNames(lapply(files, function(file) {
 
       # Get column names
-      cols <- names(data.table::fread(
-        file,
-        nrows = 1,
-        header = TRUE,
-        sep = ","
-      ))
+      cols <-
+        names(data.table::fread(
+          file,
+          nrows = 1,
+          header = TRUE,
+          sep = ","
+        ))
 
       # Get vector of variable types
       col_classes <- get_col_classes(file)
@@ -56,10 +51,11 @@ load_soi <- function(state = "", path = path) {
       # Get data based on state argument
       if (state == "") {
         data <-
-          data.table::fread(file,
-                            colClasses = col_classes,
-                            col.names = cols,
-                            nThread = 4)
+          data.table::fread(
+            file,
+            colClasses = col_classes,
+            col.names = cols,
+            nThread = 4)
       } else {
         data <-
           data.table::fread(

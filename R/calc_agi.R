@@ -7,23 +7,15 @@
 #' @param x a00100 (AGI)
 #' @param y n1 (number of returns)
 #'
-#' @import data.table
-#'
-#' @export
 calc_agi <- function(x, y) {
 
   # Classify based on x, y
   z <- data.table::fcase(
-    x / y < 25,
-    "1",
-    x / y >= 25 & x / y < 50,
-    "2",
-    x / y >= 50 & x / y < 75,
-    "3",
-    x / y >= 75 & x / y < 100,
-    "4",
-    x / y >= 100,
-    "5"
+    x / y < 25, "1",
+    x / y >= 25 & x / y < 50, "2",
+    x / y >= 50 & x / y < 75, "3",
+    x / y >= 75 & x / y < 100, "4",
+    x / y >= 100, "5"
   )
   return(z)
 }

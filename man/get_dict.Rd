@@ -7,7 +7,7 @@
 get_dict(year)
 }
 \arguments{
-\item{year}{int year between 2005-2016}
+\item{year}{int year between 2005-2021}
 }
 \description{
 Given a year, scrape NBER dictionary and return a data.table

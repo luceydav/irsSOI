@@ -11,7 +11,7 @@ download_nber_data(path = "", start_year, end_year)
 
 \item{start_year}{2005}
 
-\item{end_year}{2016}
+\item{end_year}{2021}
 }
 \description{
 Given years to download and folder path, downloads raw .csv data

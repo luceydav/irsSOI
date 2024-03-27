@@ -8,8 +8,6 @@
 #' @param data IRS data.table
 #' @param type chr specifying how to display data
 #'
-#' @import data.table
-#' @import DT
 #' @import htmltools
 #' @importFrom stats setNames
 #' @importFrom glue glue
@@ -21,9 +19,11 @@ make_deductions_DT <- function(data, type = "agi") {
   #  fst::read_fst("/Users/davidlucey/Desktop/David/Projects/irs_soi_app/data/irs_app_big.fst")
 
   # Convert data to data.table if not one
-  if (!data.table::is.data.table(data) ){
-    data <- data.table::setDT(data)
-  } else { data <- copy(data) }
+  if (!data.table::is.data.table(data)){
+    data.table::setDT(data)
+  } else {
+    data <- data.table::copy(data)
+    }
 
   if (length(data$zipcode) < 500) {
     digits <- 3
@@ -63,7 +63,6 @@ if( type == "agi") {
               charity_cap = charity / n1)
          },
          by = year]
-
   }
 
   # Fix labels
@@ -90,7 +89,9 @@ if( type == "agi") {
       ),
     caption = htmltools::tags$caption(
       style = 'caption-side: top; text-align: center;',
-      '', htmltools::em(glue::glue('Annual {scope} Deductions, State Tax, Local Tax, Mortgage Int. & Charitable Donations by Selection'))
+      '', htmltools::em(
+        glue::glue(
+          'Annual {scope} Deductions, State Tax, Local Tax, Mortgage Int. & Charitable Donations by Selection'))
     ),
     rownames = FALSE
     ) %>%

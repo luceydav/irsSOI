@@ -11,9 +11,6 @@
 #' \dontrun{
 #' make_spaghetti_plot(irs_app_data, "zipcode")}
 #'
-#' @import data.table
-#' @importFrom stringr str_to_title
-#'
 #' @export
 # spaghetti of every town of average sales price used in Shiny app
 # town_name and property specified from Shiny ui
@@ -23,15 +20,15 @@ make_spaghetti_plot <- function(data) {
   #  fst::read_fst("/Users/davidlucey/Desktop/David/Projects/irs_soi_app/data/irs_app_big.fst")
   # Convert data to data.table if not one
   if (!data.table::is.data.table(data) ){
-    data <- data.table::setDT(data)
+    data.table::setDT(data)
   }
 
   # Change to smaller geography if only one level in chosen one
   entity <- "state"
-  if ( length(unique(data$state)) == 1 ) {
+  if (length(unique(data$state)) == 1) {
     entity <- "county"
   }
-  if ( length(unique(data$county)) == 1 ) {
+  if (length(unique(data$county)) == 1) {
     entity <- "post_office_city"
   }
   if (length(unique(data$post_office_city)) == 1 ) {
@@ -44,7 +41,7 @@ make_spaghetti_plot <- function(data) {
   }
 
   # Select cols needed for plot
-  cols <- c("a00100", "year", "n1", entity)
+  cols <- c("a00100", "year", "n1", "entity")
   data <- data[, cols, with = FALSE]
 
   # Prepare data for chart if not zipcode
@@ -59,7 +56,7 @@ make_spaghetti_plot <- function(data) {
                 returns)
          },
          by = c("year", col)]
-  col <- stringr::str_to_title(col)
+  col <- paste0(toupper(substr(col, 1, 1)), substr(col, 2, nchar(col)))
   data.table::setnames(data, names(data), c("Year", col, "AGI", "Returns"))
 
   #Plotly function

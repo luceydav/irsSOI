@@ -12,7 +12,6 @@
 #' \dontrun{
 #' make_agi_graph(irs)}
 #'
-#' @import data.table
 #' @import plotly
 #' @importFrom glue glue
 #'
@@ -24,7 +23,9 @@ make_agi_graph <- function(data, type = "agi") {
   # Convert data to data.table if not one
   if (!data.table::is.data.table(data) ){
     data <- data.table::setDT(data)
-  } else { data <- copy(data) }
+  } else {
+    data <- copy(data)
+    }
 
   # Choose chart type function
   if (type == "agi") {

@@ -8,11 +8,8 @@
 #' @param data IRS data.table
 #' @param type chr specifying how to display data
 #'
-#' @import data.table
-#' @import DT
 #' @import htmltools
 #' @importFrom stats setNames
-#' @importFrom glue glue
 #'
 #' @export
 make_summary_DT <- function(data, type = "agi") {
@@ -22,8 +19,10 @@ make_summary_DT <- function(data, type = "agi") {
 
   # Convert data to data.table if not one
   if (!data.table::is.data.table(data) ){
-    data <- data.table::setDT(data)
-  } else { data <- copy(data) }
+    data.table::setDT(data)
+  } else {
+    data <- data.table::copy(data)
+    }
 
   # Set scale as filtered down to zipcode
   if (length(data$zipcode) < 500 & type == "agi") {

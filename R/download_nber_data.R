@@ -8,25 +8,23 @@
 #'
 #' @param path "/home/irs_data/"
 #' @param start_year 2005
-#' @param end_year 2016
+#' @param end_year 2021
 #'
 #' @examples
 #' \dontrun{library(data.table)
 #'  download_nber_data(start = 2005)}
 #'
-#' @import data.table
-#'
 #' @export
 download_nber_data <- function(path = "", start_year, end_year) {
 
     # Verify start_year
-    if (is.integer(start_year) & !start_year %in% c(2005:2016) ) {
-      print("Choose integer start_year between 2005-2016")
+    if (is.integer(start_year) & !start_year %in% c(2005:2021) ) {
+      print("Choose integer start_year between 2005-2021")
     }
 
     # Verify end_year
-    if (is.integer(end_year) & !end_year %in% c(2005:2016) ){
-      print("Choose integer end_year between 2005-2016")
+    if (is.integer(end_year) & !end_year %in% c(2005:2021) ){
+      print("Choose integer end_year between 2005-2021")
     }
 
     # Verify start_year < end_year
@@ -39,7 +37,9 @@ download_nber_data <- function(path = "", start_year, end_year) {
     dir <- getwd()
     path <- paste0(dir, "/data/")
     output_dir <- "data"
-    if (!dir.exists(output_dir)) {dir.create(output_dir)}
+    if (!dir.exists(output_dir)) {
+      dir.create(output_dir)
+      }
   }
 
   # Download selected years and put in data file

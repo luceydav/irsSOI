@@ -9,7 +9,6 @@
 #' \dontrun{library(data.table)
 #' irs_app_data <- prepare_app_data(irs)}
 #'
-#' @import data.table
 #' @importFrom glue glue_data
 #'
 #' @export
@@ -76,15 +75,15 @@ prepare_app_data <- function(irs) {
 
   # Load zips
   zips <-
-    data.table::setDT(zipcodeR::zip_code_db)[population > 0, ][,
-    ][,list(
-      zipcode,
-      zipcode_type,
-      post_office_city,
-      county,
-      major_city,
-      population
-    )]
+    data.table::setDT(zipcodeR::zip_code_db)[population > 0,][
+      , list(
+          zipcode,
+          zipcode_type,
+          post_office_city,
+          county,
+          major_city,
+          population
+          )]
 
   # Join to add county, city and population
   data <- zips[data, on = "zipcode"]

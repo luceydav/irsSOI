@@ -5,32 +5,30 @@
 #' Given a year, scrape NBER dictionary and return a data.table
 #' (https://www.nber.org/research/data/individual-income-tax-statistics-zip-code-data-soi)
 #'
-#' @param year int year between 2005-2016
+#' @param year int year between 2005-2021
 #'
 #' @examples
 #' \dontrun{
 #' dict <- get_dict(2016)}
 #'
 #' @importFrom stats setNames
-#' @importFrom glue glue
 #' @importFrom rvest html_node html_text
 #' @importFrom re2 re2_detect re2_which re2_replace
 #' @importFrom xml2 read_html
 #'
-#' @export
 get_dict <- function(year) {
 
   # Set URL based on year
   url <-
-    glue::glue('https://data.nber.org/tax-stats/zipcode/{year}/desc/zipcode{year}/desc.txt')
+    glue::glue(
+      'https://data.nber.org/tax-stats/zipcode/{year}/desc/zipcode{year}/desc.txt')
 
   # Scrape dictionary
   txt <- xml2::read_html(url) %>%
     rvest::html_node("body > p") %>%
     rvest::html_text()
   fil <- tempfile(fileext = ".data")
-  cat(txt, file = fil,
-      sep = "\n")
+  cat(txt, file = fil, sep = "\n")
   d <- readLines(fil, n = -1L)
   unlink(fil)
 
@@ -44,15 +42,18 @@ get_dict <- function(year) {
   # Build lists of description bullets
   row_list <- list()
   row_lists <- list()
-  for (i in seq_along(col_2) ) {
-    if ( re2::re2_detect(col_2[i], "^1") ){
+  for (i in seq_along(col_2)) {
+    if (re2::re2_detect(col_2[i], "^1")){
       row_list <- append(row_list, list(col_2[i]))
       if (i < length(col_2) - 1) {
         j <- i + 1
-        while( !re2::re2_detect(col_2[j], "^1") ) {
+        while(!re2::re2_detect(col_2[j], "^1")) {
           row_list <- append(row_list, list(col_2[j]))
-          if (j < length(col_2) - 1) { j <- j + 1 }
-          else { break }
+          if (j < length(col_2) - 1) {
+            j <- j + 1
+          } else {
+              break
+            }
         }
       }
       row_lists <- append(row_lists, list(row_list))

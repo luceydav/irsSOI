@@ -14,7 +14,7 @@ License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.1
 Imports: 
     magrittr,
     data.table,
@@ -27,7 +27,6 @@ Imports:
     rvest,
     xml2,
     re2,
-    stringr,
     janitor
 Suggests: 
     knitr,

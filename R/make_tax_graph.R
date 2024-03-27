@@ -10,9 +10,6 @@
 #' \dontrun{
 #' make_tax_graph(irs)}
 #'
-#' @import data.table
-#' @import plotly
-#'
 #' @export
 make_tax_graph <- function(data) {
 
