@@ -103,5 +103,9 @@ prepare_app_data <- function(irs) {
     glue::glue_data(.SD, "{county}, {state}")
   )]
 
+  # Set key
+  setkeyv(data, c("year", "zipcode", "agi_level"))
+  setindexv(data, c("year", "state", "county", "major_city", "zipcode"))
+
   return(data)
 }
