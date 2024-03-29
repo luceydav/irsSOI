@@ -4,10 +4,12 @@
 \alias{get_col_classes}
 \title{Get column class types for use in load_soi()}
 \usage{
-get_col_classes(file)
+get_col_classes(file, drop)
 }
 \arguments{
 \item{file}{A .csv file loaded from the IRS SOI folder}
+
+\item{drop}{Columns to drop}
 }
 \description{
 Given a .csv, determine the column types based on regex matches

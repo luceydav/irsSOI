@@ -37,7 +37,7 @@ load_soi <- function(state = "", path = path) {
     setNames(lapply(files, function(file) {
 
       # Get column names
-      cols <-
+      col_names <-
         names(data.table::fread(
           file,
           nrows = 1,
@@ -46,22 +46,24 @@ load_soi <- function(state = "", path = path) {
         ))
 
       # Get vector of variable types
-      col_classes <- get_col_classes(file)
+      drop <- c("agi_04470", "agi_19700", "agi_18300")
+      drop <- drop[drop %chin% col_names]
+      col_classes <- get_col_classes(file, drop = drop)
+      cols <- col_classes
+      names(cols) <- setdiff(col_names, drop)
 
       # Get data based on state argument
       if (state == "") {
         data <-
           data.table::fread(
             file,
-            colClasses = col_classes,
-            col.names = cols,
+            select = cols,
             nThread = 4)
       } else {
         data <-
           data.table::fread(
             cmd = glue::glue("{command}{file}"),
-            colClasses = col_classes,
-            col.names = cols,
+            select = cols,
             nThread = 4
           )
       }
@@ -76,6 +78,8 @@ load_soi <- function(state = "", path = path) {
     use.names = TRUE,
     idcol = "year"
   )
+
+
 
   return(irs)
 

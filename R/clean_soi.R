@@ -59,9 +59,6 @@ clean_soi <- function(irs_raw) {
   cols <-
     c("n6",
       "statefips",
-      "agi_04470",
-      "agi_19700",
-      "agi_18300",
       "agi_class",
       "agi_stub")
   drops <- names(irs_raw)[names(irs_raw) %in% cols]
@@ -108,8 +105,8 @@ clean_soi <- function(irs_raw) {
       irs_raw[, total_tax := a10300]
     }
 
-  # Set keys
-  data.table::setkeyv(irs_raw, c("year", "zipcode"))
+  # Set keys and indices
+  setkeyv(irs_raw, c("year", "zipcode", "agi_level"))
 
   #Return
   return(irs_raw)
