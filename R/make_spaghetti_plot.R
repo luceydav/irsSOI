@@ -20,7 +20,8 @@ make_spaghetti_plot <- function(data) {
   #  fst::read_fst("/Users/davidlucey/Desktop/David/Projects/irs_soi_app/data/irs_app_big.fst")
   # Convert data to data.table if not one
   if (!data.table::is.data.table(data) ){
-    data.table::setDT(data)
+    data <- data.table::copy(data)
+    data.table::setDT(data, key = c("year", "state", "county", "major_city", "zipcode"))
   }
 
   # Change to smaller geography if only one level in chosen one
@@ -41,7 +42,7 @@ make_spaghetti_plot <- function(data) {
   }
 
   # Select cols needed for plot
-  cols <- c("a00100", "year", "n1", "entity")
+  cols <- c("a00100", "year", "n1", get("entity"))
   data <- data[, cols, with = FALSE]
 
   # Prepare data for chart if not zipcode
