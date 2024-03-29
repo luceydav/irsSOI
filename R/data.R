@@ -6,9 +6,7 @@
 #' @format A data frame with 2033904 rows and 36 variables:
 #' \describe{
 #'   \item{zipcode}{zipcode, chr}
-#'   \item{zipcode_type}{Type of Zipcode, chr}
 #'   \item{county}{county, chr}
-#'   \item{post_office_city}{Post Office City, chr}
 #'   \item{major_city}{Major City, chr}
 #'   \item{population}{Zip Code Population, int}
 #'   \item{year}{year, int}

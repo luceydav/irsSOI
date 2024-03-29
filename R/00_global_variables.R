@@ -3,7 +3,6 @@ globalVariables(
     "irs_app_data",
     "data_dict",
     "zipcode",
-    "post_office_city",
     "year",
     "a00100",
     "n1",

@@ -29,9 +29,9 @@ make_spaghetti_plot <- function(data) {
     entity <- "county"
   }
   if (length(unique(data$county)) == 1) {
-    entity <- "post_office_city"
+    entity <- "major_city"
   }
-  if (length(unique(data$post_office_city)) == 1 ) {
+  if (length(unique(data$major_city)) == 1 ) {
     entity <- "zipcode"
   }
 
