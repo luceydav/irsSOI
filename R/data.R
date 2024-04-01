@@ -12,6 +12,7 @@
 #'   \item{year}{year, int}
 #'   \item{state}{state, chr}
 #'   \item{agi_level}{five income levels, chr}
+#'   \item{agi_level_2}{five income levels, chr}
 #'   \item{a00100}{Adjusted Gross Income, num}
 #'   \item{a00200}{Salary & Wages Amount, num}
 #'   \item{n00200}{Returns with Salary & Wages, num}
