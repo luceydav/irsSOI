@@ -39,22 +39,26 @@ make_summary_DT <- function(data, type = "agi") {
           tot_tax = sum(as.numeric(total_tax), na.rm = TRUE) /
             1000000,
           tot_returns = sum(as.numeric(n1), na.rm = TRUE) / 1000000,
+          tot_indiv = sum(as.numeric(n2), na.rm = TRUE) / 1000000,
           unique_zips = length(unique(zipcode))
         ),
         by = year]
 
   } else {
 
-      data <- data[,
+    data <-
+      data[,
         { tot_agi = sum(as.numeric(a00100), na.rm = TRUE) / 1000000
         tot_tax = sum(as.numeric(total_tax), na.rm = TRUE) /
           1000000
-        tot_returns = sum(as.numeric(n1), na.rm = TRUE) / 1000000
+        tot_returns = sum(as.numeric(n1), na.rm = TRUE)
+        tot_indiv = sum(as.numeric(n2), na.rm = TRUE)
         unique_zips = length(unique(zipcode))
         n1 = sum(as.numeric(n1), na.rm=TRUE) / 1000000
         list(agi_cap = tot_agi / n1,
              tax_cap = tot_tax / n1,
-             tot_returns,
+             indiv_cap = tot_indiv / tot_returns,
+             indiv_zip = tot_indiv / unique_zips,
              unique_zips)
         },
         by = year]
@@ -62,9 +66,15 @@ make_summary_DT <- function(data, type = "agi") {
   }
 
   # Fix labels
-  scale <- ifelse(type == "per_cap", "$k", "$B")
-  scope <- ifelse(type == "per_cap", "Per Cap", "Aggregated Total")
-  type <- ifelse(type == "per_cap", "Per Capita ", "")
+  scale <- data.table::fifelse(type == "per_cap", "$k", "$B")
+  scope <- data.table::fifelse(type == "per_cap", "Per Cap", "Aggregated Total")
+  type_text <- data.table::fifelse(type == "per_cap", "Per Capita ", "")
+  caption <- data.table::fifelse(
+    type == "per_cap",
+    glue::glue("Annual AGI {scope}, Fed'l Tax {scope}, Family Size, Zip Density and Unique Zips by Selection"),
+    glue::glue('Annual {scope} AGI, Federal Tax, Total Returns, Individuals and Unique Zips by Selection')
+    )
+
 
   # Table
   # https://taxfoundation.org/federal-tax-revenue-source-1934-2018/
@@ -72,9 +82,10 @@ make_summary_DT <- function(data, type = "agi") {
     data,
     colnames = c(
       "Year",
-      glue::glue("AGI {type}{scale}"),
-      glue::glue("Fed'l Tax {type}{scale}"),
-      "Returns (m)",
+      glue::glue("AGI {type_text}{scale}"),
+      glue::glue("Fed'l Tax {type_text}{scale}"),
+      data.table::fifelse(type == "per_cap", "Family Size", "Returns (m)"),
+      data.table::fifelse(type == "per_cap", "Zip Density", "Popu. (m)"),
       "Zips"
     ),
     options =
@@ -85,17 +96,17 @@ make_summary_DT <- function(data, type = "agi") {
       ),
     caption = htmltools::tags$caption(
       style = 'caption-side: top; text-align: center;',
-      '', htmltools::em(glue::glue('Annual {scope} AGI, Federal Tax, Total Returns and Unique Zips by Selection'))
+      '', htmltools::em(caption)
     ),
     rownames = FALSE
   ) %>%
     DT::formatRound(
-      columns = c(2:4),
+      columns = c(2:5),
       mark = ",",
       digits = digits
     ) %>%
     DT::formatRound(
-      columns = 5,
+      columns = 6,
       mark = ",",
       digits = 0
     )
