@@ -6,39 +6,40 @@
 #' aggregating income levels and coalescing number of return columns,
 #' which vary from early to later years and number of return columns
 #'
-#' @param irs_raw Uncleaned data.table of annual tax data
+#' @param data Uncleaned data.table of annual tax data
 #'
-clean_soi <- function(irs_raw) {
+clean_soi <- function(data) {
 
   # Make copy
-  irs_raw <- data.table::copy(irs_raw)
+  data <- data.table::copy(data)
 
   # Filter duplicate year column from post 2008 if exists
-  irs_raw <- irs_raw[, .SD, .SDcols = unique(names(irs_raw))]
+  data[, year := NULL]
+  setnames(data, "year1", "year")
 
   # Set key cols
-  data.table::setkey(irs_raw, zipcode)
+  data.table::setkeyv(data, c("year", "zipcode"))
 
   # Remove pre-formatted summary rows
-  irs_raw <- irs_raw[!zipcode %chin% c("00000", "99999", "0", "")]
+  data <- data[!zipcode %chin% c("00000", "99999", "0", "")]
 
-  ## Fill in bad agi_class allocations in 2006 data
-  if ("agi_class" %chin% names(irs_raw)) {
-    irs_raw[as.integer(year) < 2008 &
+  ## Impute agi_class to bad missing allocations in 2006 data
+  if ("agi_class" %chin% names(data)) {
+    data[as.integer(year) < 2008 &
           as.integer(agi_class) > 7,
         agi_class := calc_agi(a00100, n1)]
   }
 
   # Coalesce multiple dependent fields across years
-  if ("n6" %chin% names(irs_raw) & "numdep" %chin% names(irs_raw)) {
+  if ("n6" %chin% names(data) & "numdep" %chin% names(data)) {
     # Coalesce diff dependent variable name from pre 2007
-    irs_raw[, numdep := data.table::fcoalesce(numdep, n6)]
-  } else if ("n6" %chin% names(irs_raw)) {
-    data.table::setnames(irs_raw, "n6", "numdep")
+    data[, numdep := data.table::fcoalesce(numdep, n6)]
+  } else if ("n6" %chin% names(data)) {
+    data.table::setnames(data, "n6", "numdep")
   }
 
   ## Convert all state abbreviations to upper case and all zipcodes to 5-digit
-  irs_raw[
+  data[
     , zipcode := data.table::fifelse(
         !re2::re2_detect(zipcode, "^\\d{4}$"),
         zipcode,
@@ -46,14 +47,22 @@ clean_soi <- function(irs_raw) {
         )]
 
   #Fix unequal income brackets
-  if ("agi_class" %in% names(irs_raw)) {
-    irs_raw[as.integer(year) <= 2008,
+  if ("agi_class" %in% names(data)) {
+    data[as.integer(year) <= 2008,
         agi_level := convert_agi(agi_class)]
   }
-  if ("agi_stub" %chin% names(irs_raw)) {
-    irs_raw[as.integer(year) > 2008,
-        agi_level := convert_agi_2(agi_stub)]
+  if ("agi_stub" %chin% names(data)) {
+    data[as.integer(year) > 2008,
+        `:=`(
+          agi_level = convert_agi_2(agi_stub),
+          agi_stub = convert_agi_3(agi_stub)
+          )]
   }
+
+  # Add missing for agi_stub in pre-2008 years
+  data[as.integer(year) <= 2008,
+          agi_stub := NA_character_]
+  data.table::setnames(data, "agi_stub" ,"agi_level_2")
 
   # Drop cols if included in data
   cols <-
@@ -61,54 +70,59 @@ clean_soi <- function(irs_raw) {
       "statefips",
       "agi_class",
       "agi_stub")
-  drops <- names(irs_raw)[names(irs_raw) %in% cols]
+  drops <- names(data)[names(data) %in% cols]
   if (length(drops) > 0) {
-    irs_raw[, c(drops) := NULL]
+    data[, c(drops) := NULL]
   }
 
   # Aggregate rows by same agi_level, year, zipcode
-  num <-
-    setdiff(names(irs_raw), c("agi_level", "year", "zipcode", "state"))
-  states <-
-    unique(irs_raw[, list(zipcode, state)], by = "zipcode")
-  irs_raw <-
-    irs_raw[, lapply(.SD, sum, na.rm = TRUE),
-        .SDcols = num,
-        by = list(year, zipcode, agi_level)]
-  irs_raw <- states[irs_raw, on = "zipcode"]
-  irs_raw[, state := toupper(state)]
+  # num <-
+  #   setdiff(names(data), c("agi_level", "agi_level_2", "year", "zipcode", "state"))
+  # data <-
+  #   data[, lapply(.SD, sum, na.rm = TRUE)
+  #         , .SDcols = num
+  #       , by = list(year, zipcode, agi_level)]
 
-  # Remove if agi_level is NA (only a few rows)
-  irs_raw <- irs_raw[!is.na(agi_level)]
+  # Convert state to upper to fix bad rows
+  data[, state := toupper(state)]
+  # states <- unique(data[, list(zipcode, state)], by = "zipcode")
+  # data <- states[data, on = "zipcode"]
+
+  # Remove if agi_level is NA (only a few rows in 2006)
+  data <- data[!is.na(agi_level)]
 
   # Filter only zipcodes where all periods/agi_levels present
-  complete_zipcode <- length(unique(irs_raw$year)) * 5
-  irs_raw <- irs_raw[, .SD[.N == complete_zipcode], zipcode]
+  zip_table <-
+    table(data[, .N, zipcode]$N)
+  complete_zipcode <- as.integer(names(zip_table[which.max(zip_table)]))
+  complete_zipcodes <- seq(complete_zipcode-2,complete_zipcode +2, 1)
+  data <- data[, .SD[.N %in% complete_zipcodes], zipcode]
 
   ## Divide numeric amount columns by 1000 for 2007 and 2008 to equalize with other years
-  cols <- names(irs_raw)[re2::re2_which(names(irs_raw), "^a\\d{5}")]
-  if (any(c("2016", "2008") %chin% unique(irs_raw$year))) {
-    irs_raw[year %in% c("2007", "2008"),
+  cols <- names(data)[re2::re2_which(names(data), "^a\\d{5}")]
+  if (any(c("2016", "2008") %chin% unique(data$year))) {
+    data[year %in% c("2007", "2008"),
         (cols) := lapply(.SD, function(x)
           x / 1000), .SDcols = cols]
   }
 
   ##Merge total tax variables from pre and post 2007 into total tax
-  if (all(any(as.numeric(irs_raw$year) >= 2007) & any(as.numeric(irs_raw$year) < 2007))) {
-    irs_raw[, total_tax :=
+  if (all(any(as.numeric(data$year) >= 2007)
+          & any(as.numeric(data$year) < 2007))) {
+    data[, total_tax :=
           data.table::fcase(
             as.numeric(year) < 2007, a09200,
             as.numeric(year) >= 2007, a10300)]
-    } else if (all(as.numeric(irs_raw$year) < 2007)) {
-      irs_raw[, total_tax := a09200]
+    } else if (all(as.numeric(data$year) < 2007)) {
+      data[, total_tax := a09200]
     } else {
-      irs_raw[, total_tax := a10300]
+      data[, total_tax := a10300]
     }
 
   # Set keys and indices
-  setkeyv(irs_raw, c("year", "zipcode", "agi_level"))
+  setkeyv(data, c("year", "zipcode", "agi_level"))
 
   #Return
-  return(irs_raw)
+  return(data)
 
 }

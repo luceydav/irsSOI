@@ -76,7 +76,7 @@ load_soi <- function(state = "", path = path) {
     }), year),
     fill = TRUE,
     use.names = TRUE,
-    idcol = "year"
+    idcol = "year1"
   )
 
 

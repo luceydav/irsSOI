@@ -24,6 +24,7 @@ prepare_app_data <- function(irs) {
       "county",
       "major_city",
       "agi_level",
+      "agi_level_2",
       "population",
       "a00100", # agi
       "a00200", # salary

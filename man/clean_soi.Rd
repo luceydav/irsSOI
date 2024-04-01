@@ -4,10 +4,10 @@
 \alias{clean_soi}
 \title{Helper function to clean raw IRS SOI data loaded with load_soi()}
 \usage{
-clean_soi(irs_raw)
+clean_soi(data)
 }
 \arguments{
-\item{irs_raw}{Uncleaned data.table of annual tax data}
+\item{data}{Uncleaned data.table of annual tax data}
 }
 \description{
 Cleans raw IRS annual data from \code{\link[=load_soi]{load_soi()}} by removing summary rows,
