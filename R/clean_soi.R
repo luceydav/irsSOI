@@ -55,14 +55,14 @@ clean_soi <- function(data) {
     data[as.integer(year) > 2008,
         `:=`(
           agi_level = convert_agi_2(agi_stub),
-          agi_stub = convert_agi_3(agi_stub)
+          agi_level_2 = convert_agi_3(agi_stub)
           )]
   }
 
   # Add missing for agi_stub in pre-2008 years
   data[as.integer(year) <= 2008,
-          agi_stub := NA_character_]
-  data.table::setnames(data, "agi_stub" ,"agi_level_2")
+          agi_level_2 := NA_character_]
+  #data.table::setnames(data, "agi_stub" ,"agi_level_2")
 
   # Drop cols if included in data
   cols <-
