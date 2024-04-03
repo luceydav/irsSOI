@@ -74,7 +74,7 @@ make_summary_DT <- function(data, type = "agi") {
     glue::glue("Annual AGI {scope}, Fed'l Tax {scope}, Family Size, Zip Density and Unique Zips by Selection"),
     glue::glue('Annual {scope} AGI, Federal Tax, Total Returns, Individuals and Unique Zips by Selection')
     )
-
+  pg_length <- length(unique(data$year))
 
   # Table
   # https://taxfoundation.org/federal-tax-revenue-source-1934-2018/
@@ -90,7 +90,7 @@ make_summary_DT <- function(data, type = "agi") {
     ),
     options =
       list(
-        pageLength = 16,
+        pageLength = pg_length,
         scrollY = TRUE,
         dom = 't'
       ),

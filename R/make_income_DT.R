@@ -67,6 +67,7 @@ make_income_DT <- function(data, type = "agi") {
   scale <- ifelse(type == "per_cap", "$k", "$B")
   scope <- ifelse(type == "per_cap", "Per Cap", "Aggregated Total")
   type <- ifelse(type == "per_cap", "Per Capita ", "")
+  pg_length <- length(unique(data$year))
 
   # https://taxfoundation.org/federal-tax-revenue-source-1934-2018/
   DT::datatable(
@@ -81,7 +82,7 @@ make_income_DT <- function(data, type = "agi") {
     ),
     options =
       list(
-        pageLength = 16,
+        pageLength = pg_length,
         scrollY = TRUE,
         dom = 't'
       ),
