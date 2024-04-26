@@ -21,11 +21,8 @@ prepare_app_data <- function(irs) {
       "year",
       "zipcode",
       "state",
-      "county",
-      "major_city",
       "agi_level",
       "agi_level_2",
-      "population",
       "a00100", # agi
       "a00200", # salary
       "n00200",
@@ -72,19 +69,6 @@ prepare_app_data <- function(irs) {
       "n02500"
     )
 
-  # Load zips
-  zips <-
-    data.table::setDT(zipcodeR::zip_code_db)[population > 0 & zipcode_type == "Standard",][
-      , list(
-          zipcode,
-          county,
-          major_city,
-          population
-          )]
-
-  # Join to add county, city and population
-  data <- zips[data, on = "zipcode"]
-
   # Select specified columns, then filter any zip codes where
   data <- data[, cols, with = FALSE]
 
@@ -92,17 +76,8 @@ prepare_app_data <- function(irs) {
   drops <- unique(data[, .SD[sum(n1) < 100], list(zipcode, year)]$zipcode)
   data <- data[!zipcode %chin% drops]
 
-  # Adjust cities with missing post office
-  data[is.na(major_city), major_city := glue::glue_data(.SD, "Not Available")]
-  data[, county := data.table::fifelse(
-    is.na(county),
-    glue::glue_data(.SD, "Not Available, {state}"),
-    glue::glue_data(.SD, "{county}, {state}")
-  )]
-
   # Set key
   setkeyv(data, c("year", "zipcode", "agi_level"))
-  setindexv(data, c("year", "state", "county", "major_city", "zipcode"))
 
   return(data)
 }
