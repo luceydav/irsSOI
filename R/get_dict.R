@@ -18,23 +18,48 @@
 #'
 get_dict <- function(year) {
 
-  # Set URL based on year
-  url <-
-    glue::glue(
-      'https://data.nber.org/tax-stats/zipcode/{year}/desc/zipcode{year}/desc.txt')
+  print(year)
 
-  # Scrape dictionary
-  txt <- xml2::read_html(url) %>%
-    rvest::html_node("body > p") %>%
-    rvest::html_text()
-  fil <- tempfile(fileext = ".data")
-  cat(txt, file = fil, sep = "\n")
-  d <- readLines(fil, n = -1L)
-  unlink(fil)
+  # Set URL based on early years (prior to 2017)
+  if (year < 2017) {
+    url <- glue::glue('https://data.nber.org/tax-stats/zipcode/{year}/desc/zipcode{year}/desc.txt')
 
-  # Filter needed rows
-  d1 <- d[(re2::re2_which(d, "^state:") - 1):(re2::re2_which(d, "obs:") -2)]
-  d1 <- d1[re2::re2_detect(d1, "")]
+    # Scrape dictionary
+    txt <- xml2::read_html(url) %>%
+      rvest::html_node("body > p") %>%
+      rvest::html_text()
+    fil <- tempfile(fileext = ".data")
+    cat(txt, file = fil, sep = "\n")
+    d <- readLines(fil, n = -1L)
+    unlink(fil)
+
+    # Filter needed rows
+    d1 <- d[(re2::re2_which(d, "^state:") - 1):(re2::re2_which(d, "obs:") -2)]
+    d1 <- d1[re2::re2_detect(d1, "")]
+
+  } else {
+
+    # Later years
+    url <- glue::glue('https://data.nber.org/tax-stats/zipcode/{year}/desc/desc.txt')
+
+    if (year == 2017) {
+
+      print("2017 link is broken")
+      return(NULL)
+    }
+
+    # Scrape dictionary
+    txt <- xml2::read_html(url) %>%
+      rvest::html_node("body > p") %>%
+      rvest::html_text()
+    fil <- tempfile(fileext = ".data")
+    cat(txt, file = fil, sep = "\n")
+    d <- readLines(fil, n = -1L)
+    unlink(fil)
+    d1 <- d[(re2::re2_which(d, "^statefips:") - 1):length(d)]
+    d1 <- d1[!re2::re2_detect(d1, "^$")]
+  }
+
   col_2 <- d1[re2::re2_detect(d1, "^\\s")]
   col_2 <- re2::re2_replace(col_2, "^\\s*", "")
   col_2 <- col_2[re2::re2_detect(col_2, "^[1-9]")]
@@ -52,8 +77,8 @@ get_dict <- function(year) {
           if (j < length(col_2) - 1) {
             j <- j + 1
           } else {
-              break
-            }
+            break
+          }
         }
       }
       row_lists <- append(row_lists, list(row_list))
@@ -70,4 +95,7 @@ get_dict <- function(year) {
   dt <- data.table::data.table(names, row_lists)
 
   return(dt)
+
 }
+
+

@@ -8,7 +8,7 @@
 #'
 #' @param path "/home/irs_data/"
 #' @param start_year 2005
-#' @param end_year 2021
+#' @param end_year 2020
 #'
 #' @examples
 #' \dontrun{library(data.table)
@@ -18,13 +18,13 @@
 download_nber_data <- function(path = "", start_year, end_year) {
 
     # Verify start_year
-    if (is.integer(start_year) & !start_year %in% c(2005:2021) ) {
-      print("Choose integer start_year between 2005-2021")
+    if (is.integer(start_year) & !start_year %in% c(2005:2020) ) {
+      print("Choose integer start_year between 2005-2020")
     }
 
     # Verify end_year
-    if (is.integer(end_year) & !end_year %in% c(2005:2021) ){
-      print("Choose integer end_year between 2005-2021")
+    if (is.integer(end_year) & !end_year %in% c(2005:2020) ){
+      print("Choose integer end_year between 2005-2020")
     }
 
     # Verify start_year < end_year
@@ -45,10 +45,15 @@ download_nber_data <- function(path = "", start_year, end_year) {
   # Download selected years and put in data file
   years <- as.character(c(start_year:end_year))
   sapply(years, function(year) {
-    url <-
-      glue::glue("https://data.nber.org/tax-stats/zipcode/{year}/zipcode{year}.csv")
+    filename <- paste0(substr(as.character(year), 3, 4), "zpallagi.csv")
+    url <- glue::glue('https://data.nber.org/tax-stats/zipcode/{year}/{filename}')
+    #url <-
+      #glue::glue("https://data.nber.org/tax-stats/zipcode/{year}/zipcode{year}.csv")
     print(glue::glue("Downloading {year}"))
     file <- data.table::fread(url)
-    data.table::fwrite(file, glue::glue("{path}zipcode_{year}.csv"))
+    data.table::fwrite(
+      file,
+      glue::glue("{path}zipcode_{year}.csv"),
+      compress = "gzip")
   })
 }

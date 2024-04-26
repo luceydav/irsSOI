@@ -8,9 +8,6 @@
 A data frame with 2033904 rows and 36 variables:
 \describe{
 \item{zipcode}{zipcode, chr}
-\item{county}{county, chr}
-\item{major_city}{Major City, chr}
-\item{population}{Zip Code Population, int}
 \item{year}{year, int}
 \item{state}{state, chr}
 \item{agi_level}{five income levels, chr}
@@ -19,6 +16,7 @@ A data frame with 2033904 rows and 36 variables:
 \item{a00200}{Salary & Wages Amount, num}
 \item{n00200}{Returns with Salary & Wages, num}
 \item{total_tax}{Total tax paid, num}
+\item{taxpayers}{Number of Returns with Income Tax, num}
 \item{n1}{number of taxpayers, int}
 \item{n2}{Number Exemptions, num}
 \item{numdep}{Dependent Exemptions, num}
@@ -39,6 +37,8 @@ A data frame with 2033904 rows and 36 variables:
 \item{n18450}{Returns with State & Local General Sales Tax, num}
 \item{a18500}{Real Estate Taxes Amount, num}
 \item{n18500}{Returns with Real Estate Taxes, num}
+\item{a18800}{Personal Property Tax amount, num}
+\item{n18800}{Returns with Personal Property Tax, num}
 \item{a19300}{Mortgage Interest Paid Amount, num}
 \item{n19300}{Returns with Mortgage Interest Paid, num}
 \item{a00600}{Ordinary Dividends Amount, num}
@@ -59,6 +59,7 @@ A data frame with 2033904 rows and 36 variables:
 \item{n11000}{Returns with Earned Income Credit amount, num}
 \item{a85300}{Net investment income tax amount, num}
 \item{n85300}{Returns with Net investment income tax, num}
+
 }
 }
 \source{

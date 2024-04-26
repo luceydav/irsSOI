@@ -6,9 +6,6 @@
 #' @format A data frame with 2033904 rows and 36 variables:
 #' \describe{
 #'   \item{zipcode}{zipcode, chr}
-#'   \item{county}{county, chr}
-#'   \item{major_city}{Major City, chr}
-#'   \item{population}{Zip Code Population, int}
 #'   \item{year}{year, int}
 #'   \item{state}{state, chr}
 #'   \item{agi_level}{five income levels, chr}
@@ -17,6 +14,7 @@
 #'   \item{a00200}{Salary & Wages Amount, num}
 #'   \item{n00200}{Returns with Salary & Wages, num}
 #'   \item{total_tax}{Total tax paid, num}
+#'   \item{taxpayers}{Number of Returns with Income Tax, num}
 #'   \item{n1}{number of taxpayers, int}
 #'   \item{n2}{Number Exemptions, num}
 #'   \item{numdep}{Dependent Exemptions, num}
@@ -37,6 +35,8 @@
 #'   \item{n18450}{Returns with State & Local General Sales Tax, num}
 #'   \item{a18500}{Real Estate Taxes Amount, num}
 #'   \item{n18500}{Returns with Real Estate Taxes, num}
+#'   \item{a18800}{Personal Property Tax amount, num}
+#'   \item{n18800}{Returns with Personal Property Tax, num}
 #'   \item{a19300}{Mortgage Interest Paid Amount, num}
 #'   \item{n19300}{Returns with Mortgage Interest Paid, num}
 #'   \item{a00600}{Ordinary Dividends Amount, num}
@@ -57,6 +57,7 @@
 #'   \item{n11000}{Returns with Earned Income Credit amount, num}
 #'   \item{a85300}{Net investment income tax amount, num}
 #'   \item{n85300}{Returns with Net investment income tax, num}
+#'
 #' }
 #' @source \url{https://www.nber.org/research/data/individual-income-tax-statistics-zip-code-data-soi/}
 #'
@@ -67,11 +68,24 @@
 #'
 #' @format A data frame with 968 rows and 3 variables:
 #' \describe{
-#'   \item{names}{IRS SOI Field, chr}
-#'   \item{row_lists}{Field Description, chr}
+#'   \item{name}{IRS SOI Field, chr}
+#'   \item{desc}{Field Description, chr}
 #'   \item{year}{year, chr}
 #' }
 #' @source \url{https://www.nber.org/research/data/individual-income-tax-statistics-zip-code-data-soi/}
 #'
 "data_dict"
 
+
+#' Zipcodes
+#'
+#' @format A data frame with 33144 rows and 3 variables:
+#' \describe{
+#'  \item{zipcode}{Zipcode, chr}
+#'  \item{county}{County, chr}
+#'  \item{major_city}{Major City, chr}
+#'  \item{population}{Population, chr}
+#'  }
+#'  @source \url{https://www.unitedstateszipcodes.org/zip-code-database/}
+#'
+"zipcodes"

@@ -7,8 +7,8 @@
 \format{
 A data frame with 968 rows and 3 variables:
 \describe{
-\item{names}{IRS SOI Field, chr}
-\item{row_lists}{Field Description, chr}
+\item{name}{IRS SOI Field, chr}
+\item{desc}{Field Description, chr}
 \item{year}{year, chr}
 }
 }

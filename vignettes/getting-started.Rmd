@@ -59,14 +59,14 @@ data("data_dict")
 
 # Show some descriptions from 2016
 d <- data_dict[year == "2016"]
-DT::datatable(d[, unlist(row_lists), names],
+DT::datatable(d[, .(name, desc)], 
               colnames = c("Name", "Description"))
 ```
 
 The NBER has coded fields according to their own identifiers. Use `field_lookup()` to find the description.
 
 ```{r 'field-lookup', echo=TRUE}
-field_lookup(select_year = "2016", name = "a00100")
+field_lookup(select_year = "2016", select_name = "a00100")
 ```
 
 Load included sample data.table for the State of CT from 2005-2018 called `irs_app_data`. We have also 

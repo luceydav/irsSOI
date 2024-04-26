@@ -9,6 +9,7 @@ globalVariables(
     "n6",
     "numdep",
     "agi_level",
+    "agi_level_2",
     "agi_stub",
     "agi_class",
     "state",
@@ -49,6 +50,8 @@ globalVariables(
     "population",
     "entity",
     "Returns",
+    "filename",
+    "name",
     "scope",
     "scale")
 )

@@ -27,7 +27,9 @@ Imports:
     rvest,
     xml2,
     re2,
-    janitor
+    janitor,
+    duckplyr,
+    dplyr
 Suggests: 
     knitr,
     rmarkdown,

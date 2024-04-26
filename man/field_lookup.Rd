@@ -4,12 +4,12 @@
 \alias{field_lookup}
 \title{Lookup Field Description from IRS SOI Data}
 \usage{
-field_lookup(select_year = "2016", name = "a00100")
+field_lookup(select_year = "2016", select_name = "a00100")
 }
 \arguments{
 \item{select_year}{Int year}
 
-\item{name}{Field identifier}
+\item{select_name}{Field identifier}
 }
 \description{
 Takes year and NBER Field identifier and returns Field Description
