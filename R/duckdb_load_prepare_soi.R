@@ -18,7 +18,8 @@
 #' irs <- duckdb_load_prepare_soi("~/Documents/Data/irs_zip_soi/")}
 #'
 #' @export
-duckdb_load_prepare_soi <- function(states = "", path = "") {
+duckdb_load_prepare_soi <- function(
+    states = "", path = "") {
 
   my_cols <- function() {
     c(
@@ -99,7 +100,7 @@ duckdb_load_prepare_soi <- function(states = "", path = "") {
       )
     ) |>
     duckplyr::filter(!zipcode %in%  c("00000", "99999", "0", "")) |>
-    filter(state %in% states) |>
+    duckplyr::filter(state %in% states) |>
     duckplyr::mutate(year = as.integer(substr(filename, 53, 56))) |>
     duckplyr::mutate(duckplyr::across(
       dplyr::matches("a\\d+"),
@@ -162,7 +163,7 @@ duckdb_load_prepare_soi <- function(states = "", path = "") {
 
   # Set keys and index
   data.table::setDT(data, key=c("year", "zipcode"))
-  if (states != "") {
+  if (length(states) > 1) {
     data.table::setindex(data, cols = "state")
   }
 
