@@ -10,7 +10,9 @@ A data frame with 33144 rows and 3 variables:
 \item{zipcode}{Zipcode, chr}
 \item{county}{County, chr}
 \item{major_city}{Major City, chr}
-\item{population}{Population, chr}
+\item{land_area_in_sqmi}{Land Area, num}
+\item{lat}{Latitude, num}
+\item{lng}{Longitude, num}
 }
 @source \url{https://www.unitedstateszipcodes.org/zip-code-database/}
 }
