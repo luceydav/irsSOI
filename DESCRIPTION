@@ -23,13 +23,13 @@ Imports:
     ggplot2,
     DT,
     htmltools,
-    zipcodeR,
     rvest,
     xml2,
     re2,
     janitor,
     duckplyr,
-    dplyr
+    dplyr,
+    stringr
 Suggests: 
     knitr,
     rmarkdown,
