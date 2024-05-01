@@ -61,7 +61,8 @@ make_summary_DT <- function(data, type = "agi") {
              agi_cap = tot_agi / n1,
              tax_cap = tot_tax / n1,
              indiv_cap = tot_indiv / tot_returns,
-             pop_density = (tot_indiv * length(unique(agi_level))) / area
+             pop_density = (tot_indiv * length(unique(agi_level))) / area,
+             unique_zips
            )},
            by = year]
 
@@ -87,7 +88,7 @@ make_summary_DT <- function(data, type = "agi") {
       glue::glue("AGI {type_text}{scale}"),
       glue::glue("Fed'l Tax {type_text}{scale}"),
       data.table::fifelse(type == "per_cap", "Family Size", "Returns (m)"),
-      data.table::fifelse(type == "per_cap", "Pop Density", "Popu. (m)"),
+      data.table::fifelse(type == "per_cap", "Pop Density (SQM.)", "Popu. (m)"),
       "Zips"
     ),
     options =
