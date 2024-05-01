@@ -100,8 +100,10 @@ duckdb_load_prepare_soi <- function(
       )
     ) |>
     duckplyr::filter(!zipcode %in%  c("00000", "99999", "0", "")) |>
-    duckplyr::filter(state %in% states) |>
-    duckplyr::mutate(year = as.integer(substr(filename, 53, 56))) |>
+    duckplyr::filter(tolower(state) %in% tolower(states)) |>
+    #duckplyr::mutate(year = as.integer(substr(filename, 53, 56))) |>
+    duckplyr::mutate(
+      year = as.integer(stringr::str_match(filename, "\\d{4}")[, 1])) |>
     duckplyr::mutate(duckplyr::across(
       dplyr::matches("a\\d+"),
       ~ duckplyr::case_when(year %in% c(2007:2008) ~ .x / 1000,
