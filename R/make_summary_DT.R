@@ -22,7 +22,7 @@ make_summary_DT <- function(data, type = "agi") {
     data.table::setDT(data)
   } else {
     data <- data.table::copy(data)
-    }
+  }
 
   # Set scale as filtered down to zipcode
   if (length(data$zipcode) < 500 & type == "agi") {
@@ -33,35 +33,37 @@ make_summary_DT <- function(data, type = "agi") {
 
   if( type == "agi") {
 
-      data <- data[,
-        list(
-          tot_agi = sum(as.numeric(a00100), na.rm = TRUE) / 1000000,
-          tot_tax = sum(as.numeric(total_tax), na.rm = TRUE) /
-            1000000,
-          tot_returns = sum(as.numeric(n1), na.rm = TRUE) / 1000000,
-          tot_indiv = sum(as.numeric(n2), na.rm = TRUE) / 1000000,
-          unique_zips = length(unique(zipcode))
-        ),
-        by = year]
+    data <- data[,
+                 list(
+                   tot_agi = sum(as.numeric(a00100), na.rm = TRUE) / 1000000,
+                   tot_tax = sum(as.numeric(total_tax), na.rm = TRUE) /
+                     1000000,
+                   tot_returns = sum(as.numeric(n1), na.rm = TRUE) / 1000000,
+                   tot_indiv = sum(as.numeric(n2), na.rm = TRUE) / 1000000,
+                   unique_zips = length(unique(zipcode))
+                 ),
+                 by = year]
 
   } else {
 
     data <-
       data[,
-        { tot_agi = sum(as.numeric(a00100), na.rm = TRUE) / 1000000
-        tot_tax = sum(as.numeric(total_tax), na.rm = TRUE) /
-          1000000
-        tot_returns = sum(as.numeric(n1), na.rm = TRUE)
-        tot_indiv = sum(as.numeric(n2), na.rm = TRUE)
-        unique_zips = length(unique(zipcode))
-        n1 = sum(as.numeric(n1), na.rm=TRUE) / 1000000
-        list(agi_cap = tot_agi / n1,
+           {
+             tot_agi = sum(as.numeric(a00100), na.rm = TRUE) / 1000000
+           tot_tax = sum(as.numeric(total_tax), na.rm = TRUE) /
+             1000000
+           tot_returns = sum(as.numeric(n1), na.rm = TRUE)
+           tot_indiv = sum(as.numeric(n2), na.rm = TRUE)
+           area = sum(as.numeric(land_area_in_sqmi), na.rm = TRUE)
+           unique_zips = length(unique(zipcode))
+           n1 = sum(as.numeric(n1), na.rm = TRUE) / 1000000
+           list(
+             agi_cap = tot_agi / n1,
              tax_cap = tot_tax / n1,
              indiv_cap = tot_indiv / tot_returns,
-             indiv_zip = tot_indiv / unique_zips,
-             unique_zips)
-        },
-        by = year]
+             pop_density = (tot_indiv * length(unique(agi_level))) / area
+           )},
+           by = year]
 
   }
 
@@ -71,9 +73,9 @@ make_summary_DT <- function(data, type = "agi") {
   type_text <- data.table::fifelse(type == "per_cap", "Per Capita ", "")
   caption <- data.table::fifelse(
     type == "per_cap",
-    glue::glue("Annual AGI {scope}, Fed'l Tax {scope}, Family Size, Zip Density and Unique Zips by Selection"),
-    glue::glue('Annual {scope} AGI, Federal Tax, Total Returns, Individuals and Unique Zips by Selection')
-    )
+    glue::glue("AGI {scope}, Fed'l Tax {scope}, Family Size and Pop. Density by Selection"),
+    glue::glue('{scope} AGI, Federal Tax, Total Returns, Individuals and Unique Zips by Selection')
+  )
   pg_length <- length(unique(data$year))
 
   # Table
@@ -85,7 +87,7 @@ make_summary_DT <- function(data, type = "agi") {
       glue::glue("AGI {type_text}{scale}"),
       glue::glue("Fed'l Tax {type_text}{scale}"),
       data.table::fifelse(type == "per_cap", "Family Size", "Returns (m)"),
-      data.table::fifelse(type == "per_cap", "Zip Density", "Popu. (m)"),
+      data.table::fifelse(type == "per_cap", "Pop Density", "Popu. (m)"),
       "Zips"
     ),
     options =
